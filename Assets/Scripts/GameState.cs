@@ -1,0 +1,153 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using System.IO;
+using UnityEngine.UI;
+using ini_read_write;
+using System.Globalization;
+using System.Linq;
+using UnityEngine.Video;
+
+public class GameState : MonoBehaviour
+{
+
+    public float start_time = 0;
+    public bool isStart = false;
+    public Image background;
+    public GameObject blackMask;
+    public VideoPlayer video;
+    public GameObject modeScene;
+    public ScoreManager scoreManager;
+
+    private IniManager iniManager = new IniManager(".\\settings.ini");
+    
+    private int speed;
+    private int offset;
+    public int note_amount = 0;
+    private bool isMusicStart = false;
+
+    public static bool pause = false;
+    public static bool gameover = false;
+    StreamReader streamReader;
+    private float end_time;
+    private bool is_settle = false;
+
+    void Start() {
+        pause = false;
+        gameover = false;
+        speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        offset = Int32.Parse(iniManager.ReadIniFile("settings", "offset", "0"));
+        SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
+        StartCoroutine(delay());
+        AudioManager.Instance.load_BGM(StateController.cur_song_index);
+        
+        string[] s = File.ReadAllLines(StateController.songs_path[StateController.cur_song_index]+"\\note.txt").Last().Split(",");
+        if (s.Length == 3)
+        {
+            end_time = float.Parse(s[1]);
+        }
+        else
+        {
+            end_time = float.Parse(s[3]);
+        }
+    }
+
+    void Update() {
+        if(isMusicStart && !is_settle && end_time < Time.time*1000 - start_time) { 
+            is_settle = true;
+            gameover = true;
+            StartCoroutine(Settle());
+        }
+    }
+
+    IEnumerator Settle() {
+        yield return new WaitForSeconds(1.5f);
+        modeScene.transform.GetChild(0).gameObject.SetActive(false);
+        modeScene.transform.GetChild(1).gameObject.SetActive(false);
+        modeScene.transform.GetChild(2).gameObject.SetActive(false);
+        modeScene.transform.GetChild(3).gameObject.SetActive(true);
+
+        scoreManager.SettleScore();
+    }
+
+    IEnumerator delay() {
+        StreamReader streamReader = new StreamReader(StateController.songs_path[StateController.cur_song_index]+"\\note.txt");
+        float t = -1130f/((speed+4)*400f)*1000f+250f+offset;
+        t /= 1000f;
+        // Debug.Log(t);
+        if(t < 0) {  
+            yield return new WaitForSeconds(3+t);
+            start_time = (float)Math.Round(Time.time*1000);
+            isStart = true;
+            yield return new WaitForSeconds(-t);
+            // GetComponent<GameMusicLoader>().PlayMusic();
+            if (!background.gameObject.activeSelf)
+            {
+                video.gameObject.SetActive(true);
+                blackMask.GetComponent<Animator>().SetTrigger("fadeOut");
+            }
+            AudioManager.Instance.resume_BGM();
+            isMusicStart = true;
+            KeyEvent.can_pause = true;
+
+        }
+        else {
+            yield return new WaitForSeconds(3);
+            // GetComponent<GameMusicLoader>().PlayMusic();
+            if (!background.gameObject.activeSelf)
+            {
+                video.gameObject.SetActive(true);
+            }
+            AudioManager.Instance.resume_BGM();
+            isMusicStart = true;
+            KeyEvent.can_pause = true;
+            yield return new WaitForSeconds(t);
+            start_time = (float)Math.Round(Time.time*1000);
+            isStart = true;
+        }
+    }
+
+    Sprite ImageToSprite(string path) {
+        string filePath = path;
+        byte[] fileData = File.ReadAllBytes(filePath);
+        Texture2D tex = new Texture2D(2, 2);
+        tex.LoadImage(fileData);
+        Rect rec = new Rect(0, 0, tex.width, tex.height);
+        Sprite spriteToUse = Sprite.Create(tex,rec,new Vector2(0.5f,0.5f),100);
+
+        return spriteToUse;
+    }
+
+    void SetBackgroundImage(string image_path) {
+        DirectoryInfo directory = new DirectoryInfo(image_path);
+        FileInfo[] files = directory.GetFiles("*.mp4");
+        
+        if(files.Length == 0) {
+            files = directory.GetFiles("*.png");
+        }
+
+        if (files.Length == 0)
+        {
+            files = directory.GetFiles("*.jpg");
+        }
+        Debug.Log(files[0].FullName);
+
+        if (files[0].FullName.EndsWith(".png") || files[0].FullName.EndsWith(".jpg"))
+        {
+            video.gameObject.SetActive(false);
+            background.gameObject.SetActive(true);
+            blackMask.SetActive(false);
+            background.sprite = ImageToSprite(files[0].FullName);
+        }
+        else
+        {
+            video.gameObject.SetActive(false);
+            background.gameObject.SetActive(false);
+            blackMask.SetActive(true);
+            video.url = files[0].FullName;
+        }
+    }
+
+}

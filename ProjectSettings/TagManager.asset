@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Menu
+  - Settings
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - gamecontroller
+  - canpress0
+  - canpress1
+  - canpress2
+  - canpress3
+  - canpress4
+  - canpress5
+  - canpress6
+  - canclick0
+  - canclick1
+  - canclick2
+  - canclick3
+  - canclick4
+  - canclick5
+  - canclick6
+  - slider
+  - miss
+  - scoremanager
+  - set4k0
+  - set4k1
+  - set4k2
+  - set4k3
+  - set7k0
+  - set7k1
+  - set7k2
+  - set7k3
+  - set7k4
+  - set7k5
+  - set7k6
+  - button
+  - fadeout-mask
+  - fadein-mask
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  m_RenderingLayers:
+  - Default
