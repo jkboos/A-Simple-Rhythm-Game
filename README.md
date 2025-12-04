@@ -45,3 +45,7 @@ You can use **osu mania converter** to convert osu mania beatmaps to the game's 
     `Optional: video background(.mp4)` 
 5. Put the new beatmap folder in the Songs folder in the game root directory.
 6. Done!
+
+# Review
+
+![image1](https://i.ibb.co/Q3rc4Sd2/1.png)
