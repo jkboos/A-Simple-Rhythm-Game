@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using ini_read_write;
 using System.Globalization;
 using System.Linq;
+using TMPro;
 using UnityEngine.Video;
 
 public class GameState : MonoBehaviour
@@ -20,6 +21,8 @@ public class GameState : MonoBehaviour
     public VideoPlayer video;
     public GameObject modeScene;
     public ScoreManager scoreManager;
+    public GameObject progressbar;
+    public GameObject time;
 
     private IniManager iniManager = new IniManager(".\\settings.ini");
     
@@ -39,6 +42,7 @@ public class GameState : MonoBehaviour
         gameover = false;
         speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
         offset = Int32.Parse(iniManager.ReadIniFile("settings", "offset", "0"));
+        time.GetComponent<TMP_Text>().autoSizeTextContainer = true;
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
         StartCoroutine(delay());
         AudioManager.Instance.load_BGM(StateController.cur_song_index);
@@ -59,6 +63,19 @@ public class GameState : MonoBehaviour
             is_settle = true;
             gameover = true;
             StartCoroutine(Settle());
+        }
+        else if (isMusicStart && !is_settle)
+        {
+            progressbar.GetComponent<RectTransform>().offsetMax = new Vector2(
+                -Screen.width + Screen.width * ((Time.time * 1000 - start_time) / end_time),
+                progressbar.GetComponent<RectTransform>().offsetMax.y);
+            time.transform.position = new Vector3(Screen.width+progressbar.GetComponent<RectTransform>().offsetMax.x-time.GetComponent<RectTransform>().rect.width/2, time.transform.position.y, 0);
+            int remain_time = (int)((end_time - (Time.time*1000 - start_time)) / 1000);
+            string second = $"{remain_time % 60}";
+            string minute = $"{remain_time / 60}";
+            minute = minute.PadLeft(2, '0');
+            second = second.PadLeft(2, '0');
+            time.GetComponent<TMP_Text>().text = $"{minute}:{second}";
         }
     }
 
