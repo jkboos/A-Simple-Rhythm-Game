@@ -1,18 +1,15 @@
 # A Simple Rhythm Game
 
----
 A rhythm game, just like osu mania or else falling-type rhythm games.
 
 # Requirements
 
----
 - Unity Version **6000.0.63f1**
 
 It is highly recommended to use the exact version specified to avoid compatibility issues.
 
 # Getting Started
 
----
 1. Cloning the Repository
 ```
 git clone https://github.com/jkboos/A-Simple-Rhythm-Game.git
@@ -34,7 +31,6 @@ git clone https://github.com/jkboos/A-Simple-Rhythm-Game.git
 
 # Osu Mania Converter
 
----
 You can use **osu mania converter** to convert osu mania beatmaps to the game's map format.
 
 ### Download
