@@ -42,7 +42,9 @@ You can use **osu mania converter** to convert osu mania beatmaps to the game's 
 3. Run `start.bat`. (if there was no error, it will create a beatmap folder automatically)
 4. Put the music(.mp3) and background image(.png or .jpg) from the original beatmap folder in the beatmap folder that just auto-created.
 
-    `Optional: video background(.mp4)` 
+    > Optional:
+    > 1. video background(.mp4)
+    > 2. storyboard files(.osb, images in sb folder)
 5. Put the new beatmap folder in the Songs folder in the game root directory.
 6. Done!
 
