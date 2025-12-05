@@ -372,72 +372,48 @@ public class Storyboard : MonoBehaviour
             float.TryParse(p[k], out v[k - 4]);
         }
 
-        // 防呆: 忽略異常 Scale
+        // 防呆
         if ((t == "S" || t == "V") && (v[0] > 1000f || v[1] > 1000f)) return;
 
         switch (t) {
             case "F": 
-                // Fade: 若無結束值，則結束值 = 起始值
-                float fStart = v[0];
-                float fEnd = (p.Length > 5) ? v[1] : fStart;
-                sprite.AddCmd(StoryCmdType.Fade, s, e, ease, fStart, fEnd); 
+                sprite.AddCmd(StoryCmdType.Fade, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
                 break;
-
             case "M": 
-                // Move: 若無結束座標，則結束座標 = 起始座標
-                float mxStart = v[0], myStart = v[1];
-                float mxEnd = (p.Length > 6) ? v[2] : mxStart;
-                float myEnd = (p.Length > 6) ? v[3] : myStart;
-                sprite.AddCmd(StoryCmdType.MoveX, s, e, ease, mxStart, mxEnd); 
-                sprite.AddCmd(StoryCmdType.MoveY, s, e, ease, myStart, myEnd); 
+                sprite.AddCmd(StoryCmdType.MoveX, s, e, ease, v[0], (p.Length > 6) ? v[2] : v[0]); 
+                sprite.AddCmd(StoryCmdType.MoveY, s, e, ease, v[1], (p.Length > 6) ? v[3] : v[1]); 
                 break;
-
             case "MX": 
-                float mx1 = v[0];
-                float mx2 = (p.Length > 5) ? v[1] : mx1;
-                sprite.AddCmd(StoryCmdType.MoveX, s, e, ease, mx1, mx2); 
+                sprite.AddCmd(StoryCmdType.MoveX, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
                 break;
-
             case "MY": 
-                float my1 = v[0];
-                float my2 = (p.Length > 5) ? v[1] : my1;
-                sprite.AddCmd(StoryCmdType.MoveY, s, e, ease, my1, my2); 
+                sprite.AddCmd(StoryCmdType.MoveY, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
                 break;
-
             case "S": 
-                float s1 = v[0];
-                float s2 = (p.Length > 5) ? v[1] : s1;
-                sprite.AddCmd(StoryCmdType.ScaleX, s, e, ease, s1, s2); 
-                sprite.AddCmd(StoryCmdType.ScaleY, s, e, ease, s1, s2); 
+                sprite.AddCmd(StoryCmdType.ScaleX, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
+                sprite.AddCmd(StoryCmdType.ScaleY, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
                 break;
-
             case "V": 
-                // Vector Scale: 若無結束值，結束值 = 起始值
-                // 參數結構: startX, startY, endX, endY
-                float vx1 = v[0], vy1 = v[1];
-                float vx2 = (p.Length > 6) ? v[2] : vx1;
-                float vy2 = (p.Length > 6) ? v[3] : vy1;
-                sprite.AddCmd(StoryCmdType.ScaleX, s, e, ease, vx1, vx2); 
-                sprite.AddCmd(StoryCmdType.ScaleY, s, e, ease, vy1, vy2); 
+                sprite.AddCmd(StoryCmdType.ScaleX, s, e, ease, v[0], (p.Length > 6) ? v[2] : v[0]); 
+                sprite.AddCmd(StoryCmdType.ScaleY, s, e, ease, v[1], (p.Length > 6) ? v[3] : v[1]); 
                 break;
-
             case "R": 
-                float r1 = v[0];
-                float r2 = (p.Length > 5) ? v[1] : r1;
-                sprite.AddCmd(StoryCmdType.Rotate, s, e, ease, r1, r2); 
+                sprite.AddCmd(StoryCmdType.Rotate, s, e, ease, v[0], (p.Length > 5) ? v[1] : v[0]); 
                 break;
-
             case "C": 
                 Color c1 = new Color(v[0]/255f, v[1]/255f, v[2]/255f);
                 Color c2 = (p.Length > 7) ? new Color(v[3]/255f, v[4]/255f, v[5]/255f) : c1;
                 sprite.AddColorCmd(s, e, ease, c1, c2); 
                 break;
-
             case "P":
                 if(p.Length > 4) {
-                    if(p[4]=="A") sprite.AddParamCmd(s, e, StoryParamType.Additive);
-                    if(p[4]=="H") sprite.AddParamCmd(s, e, StoryParamType.FlipH);
-                    if(p[4]=="V") sprite.AddParamCmd(s, e, StoryParamType.FlipV);
+                    // --- 關鍵修正：如果是單點時間的 Parameter，視為永久生效 (直到物件消失) ---
+                    // 這樣 Additive (A) 和 Flip (H/V) 就不會閃一下就消失了
+                    int paramEnd = (s == e) ? int.MaxValue : e;
+
+                    if(p[4]=="A") sprite.AddParamCmd(s, paramEnd, StoryParamType.Additive);
+                    if(p[4]=="H") sprite.AddParamCmd(s, paramEnd, StoryParamType.FlipH);
+                    if(p[4]=="V") sprite.AddParamCmd(s, paramEnd, StoryParamType.FlipV);
                 }
                 break;
         }
