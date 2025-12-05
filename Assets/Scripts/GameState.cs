@@ -38,6 +38,7 @@ public class GameState : MonoBehaviour
     private bool is_settle = false;
     public Storyboard storyboard;
     public Animator loading;
+    public GameObject particle;
 
     void Start() {
         pause = false;
@@ -48,16 +49,24 @@ public class GameState : MonoBehaviour
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
         StartCoroutine(delay());
         AudioManager.Instance.load_BGM(StateController.cur_song_index);
-        
-        string[] s = File.ReadAllLines(StateController.songs_path[StateController.cur_song_index]+"\\note.txt").Last().Split(",");
-        if (s.Length == 3)
+
+        float max = 0;
+        StreamReader reader = new StreamReader(StateController.cur_song_path + "\\note.txt");
+        string line;
+        while ((line = reader.ReadLine()) != null)
         {
-            end_time = float.Parse(s[1]);
+            string[] s = line.Split(',');
+            if (s.Length == 3 && float.Parse(s[1]) > max)
+            {
+                max = float.Parse(s[1]);
+            }
+            else if(s.Length == 4 && float.Parse(s[1]) > max)
+            {
+                max = float.Parse(s[3]);
+            }
         }
-        else
-        {
-            end_time = float.Parse(s[3]);
-        }
+
+        end_time = max;
     }
 
     void Update() {
@@ -111,6 +120,7 @@ public class GameState : MonoBehaviour
             if (!background.gameObject.activeSelf)
             {
                 video.gameObject.SetActive(true);
+                particle.SetActive(false);
                 blackMask.GetComponent<Animator>().SetTrigger("fadeOut");
             }
             AudioManager.Instance.resume_BGM();
@@ -125,6 +135,7 @@ public class GameState : MonoBehaviour
             if (!background.gameObject.activeSelf)
             {
                 video.gameObject.SetActive(true);
+                particle.SetActive(false);
             }
             AudioManager.Instance.resume_BGM();
             isMusicStart = true;

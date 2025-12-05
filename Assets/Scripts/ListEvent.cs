@@ -23,6 +23,8 @@ public class ListEvent : MonoBehaviour
     public bool canEnter = true;
     public GameObject canvas;
     public UnityEvent<GameObject, Action> fadeOut;
+    public Image video_icon;
+    public Image storyboard_icon;
 
     public void OnBoxSelected(ListBox listBox) {
         int index = Int32.Parse(listBox.name.Replace("SongButton (", "").Replace(")", ""));
@@ -62,6 +64,27 @@ public class ListEvent : MonoBehaviour
                 StateController.list_box_init = false;
             }
 
+            DirectoryInfo direction = new DirectoryInfo(StateController.cur_song_path);
+            FileInfo[] files = direction.GetFiles("*.mp4");
+            if (files.Length > 0)
+            {
+                video_icon.color = Color.green;
+            }
+            else
+            {
+                video_icon.color = Color.red;
+            }
+            
+            direction = new DirectoryInfo(StateController.cur_song_path);
+            files = direction.GetFiles("*.osb");
+            if (files.Length > 0)
+            {
+                storyboard_icon.color = Color.green;
+            }
+            else
+            {
+                storyboard_icon.color = Color.red;
+            }
             
             BGManager.SetBackgroundImage(StateController.songs_path[index], background);
             score.LoadScore();

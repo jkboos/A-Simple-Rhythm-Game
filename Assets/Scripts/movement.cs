@@ -19,10 +19,10 @@ public class movement : MonoBehaviour
         gameState = GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>();
     }
     
-    void FixedUpdate()
+    void Update()
     {
         if(gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) {
-            transform.position = new Vector3(transform.parent.position.x, transform.position.y-400*(speed+4)*Time.fixedDeltaTime, transform.position.z);
+            transform.position = new Vector3(transform.parent.position.x, transform.position.y-400*(speed+4)*Time.deltaTime, transform.position.z);
         }
         else if(gameObject.tag.Contains("canpress") || gameObject.tag == "slider") {
             for(int i = 0; i< 3; i++) {
@@ -30,7 +30,7 @@ public class movement : MonoBehaviour
                 if(gameObject.transform.GetChild(1).gameObject.transform.position.y <= gameObject.transform.GetChild(2).gameObject.transform.position.y && i == 1) {
                     continue;
                 }
-                part.transform.position = new Vector3(part.transform.parent.position.x, part.transform.position.y-400*(speed+4)*Time.fixedDeltaTime, part.transform.position.z);
+                part.transform.position = new Vector3(part.transform.parent.position.x, part.transform.position.y-400*(speed+4)*Time.deltaTime, part.transform.position.z);
             }
             
         }

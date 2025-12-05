@@ -34,7 +34,7 @@ git clone https://github.com/jkboos/A-Simple-Rhythm-Game.git
 You can use **osu mania converter** to convert osu mania beatmaps to the game's map format.
 
 ### Download
-> [osu mania converter.zip](https://drive.google.com/file/d/1HJ3BMZCNezStAczUL6qOP_h1HvmwnPul/view?usp=sharing])
+> [osu mania converter.zip](https://drive.google.com/file/d/1V3aFV-ERxL1FpbrUlx9BM6XBWhk6Vrg5/view?usp=sharing])
 
 ### Usage
 1. Download a osu mania beatmap.

@@ -5357,6 +5357,8 @@ MonoBehaviour:
   layerOverlay: {fileID: 622709339}
   gameController: {fileID: 1253749655}
   is_loaded: 0
+  background: {fileID: 666335169}
+  particle: {fileID: 883858555}
 --- !u!4 &865233381
 Transform:
   m_ObjectHideFlags: 0
@@ -7461,6 +7463,7 @@ MonoBehaviour:
   note_amount: 0
   storyboard: {fileID: 865233380}
   loading: {fileID: 1824154020}
+  particle: {fileID: 883858555}
 --- !u!114 &1253749656
 MonoBehaviour:
   m_ObjectHideFlags: 0
