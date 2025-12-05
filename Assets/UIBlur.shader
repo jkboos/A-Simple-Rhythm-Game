@@ -1,4 +1,4 @@
-Shader "Custom/UIHighQualityGaussian"
+Shader "Custom/UIHighQualityBokeh"
 {
     Properties
     {
@@ -6,11 +6,11 @@ Shader "Custom/UIHighQualityGaussian"
         _Color ("Tint", Color) = (1,1,1,1)
 
         // --- 核心參數 ---
-        _BlurSize ("Blur Size (模糊強度)", Range(0, 20)) = 3.0
-        [IntRange] _Samples ("Quality (採樣次數 - 越高越細但越卡)", Range(3, 10)) = 5
-        _StandardDeviation ("Sigma (柔和度)", Range(0.1, 10)) = 2.0
+        _BlurSize ("Blur Radius (模糊半徑)", Range(0, 20)) = 3.0
+        // 採樣次數建議 20-40 之間，越高越細緻但越耗效能
+        [IntRange] _Iteration ("Quality (顆粒細緻度)", Range(10, 60)) = 30
         
-        // --- UI 必要屬性 (不用動) ---
+        // --- UI 必要屬性 ---
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
         _StencilOp ("Stencil Operation", Float) = 0
@@ -52,7 +52,7 @@ Shader "Custom/UIHighQualityGaussian"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.0 // 需要 Shader Model 3.0 來支援複雜迴圈
+            #pragma target 3.0
 
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
@@ -77,17 +77,16 @@ Shader "Custom/UIHighQualityGaussian"
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_TexelSize; // 自動取得貼圖尺寸
+            float4 _MainTex_TexelSize;
             fixed4 _Color;
             fixed4 _TextureSampleAdd;
             float4 _ClipRect;
-
-            // 自定義參數
+            
             float _BlurSize;
-            int _Samples;
-            float _StandardDeviation;
+            int _Iteration;
 
-            static const float PI = 3.14159265359;
+            // 黃金角度 (Golden Angle) 約為 2.39996323 弧度
+            static const float GOLDEN_ANGLE = 2.39996323;
 
             v2f vert(appdata_t v)
             {
@@ -101,45 +100,47 @@ Shader "Custom/UIHighQualityGaussian"
                 return OUT;
             }
 
-            // 高斯分佈函數
-            float gaussian(float x, float y, float sigma)
-            {
-                return (1.0 / (2.0 * PI * sigma * sigma)) * exp(-(x * x + y * y) / (2.0 * sigma * sigma));
-            }
-
             fixed4 frag(v2f IN) : SV_Target
             {
-                float4 sum = float4(0, 0, 0, 0);
-                float weightSum = 0;
+                // 初始化顏色累積與權重
+                half4 colorSum = half4(0, 0, 0, 0);
+                // 為了避免除以零，初始給一點點權重
+                float weightSum = 0.001; 
                 
-                // 根據貼圖大小計算像素偏移
                 float2 res = _MainTex_TexelSize.xy;
                 
-                // 為了效能，限制最大迴圈數
-                int upper = _Samples;
-                int lower = -upper;
-
-                // 雙重迴圈進行高斯採樣 (Single Pass Gaussian)
-                for (int x = lower; x <= upper; ++x)
+                // 旋轉矩陣參數
+                float s, c;
+                
+                // 核心迴圈：黃金角度螺旋採樣
+                // 這種算法能用最少的點，達到最圓潤的覆蓋率
+                for (int i = 0; i < _Iteration; i++)
                 {
-                    for (int y = lower; y <= upper; ++y)
-                    {
-                        // 計算偏移 UV
-                        float2 offset = float2(x, y) * _BlurSize * res;
-                        float2 uv = IN.texcoord + offset;
+                    // 1. 計算角度：每次增加黃金角度
+                    float theta = i * GOLDEN_ANGLE;
+                    sincos(theta, s, c);
+                    
+                    // 2. 計算半徑：半徑隨索引的平方根增加，確保採樣點分佈均勻
+                    float r = sqrt((float)i) * _BlurSize;
+                    
+                    // 3. 計算偏移 UV
+                    // 這裡組合了旋轉 (cos, sin) 與半徑擴展
+                    float2 offset = float2(c * r, s * r) * res;
+                    float2 uv = IN.texcoord + offset;
 
-                        // 計算高斯權重
-                        float weight = gaussian(x, y, _StandardDeviation);
-
-                        sum += tex2D(_MainTex, uv) * weight;
-                        weightSum += weight;
-                    }
+                    // 4. 採樣並累積
+                    // 這裡不做複雜的高斯權重計算，因為螺旋分佈本身就是一種加權
+                    // 這樣可以省下 exp() 的昂貴開銷
+                    half4 sampleColor = tex2D(_MainTex, uv);
+                    
+                    colorSum += sampleColor;
+                    weightSum += 1.0;
                 }
 
-                // 正規化顏色 (避免過亮或過暗)
-                fixed4 col = sum / weightSum;
+                // 計算平均值
+                fixed4 col = colorSum / weightSum;
 
-                // 處理 UI 顏色疊加與裁切
+                // --- UI 標準處理 ---
                 col *= IN.color;
                 col.a += _TextureSampleAdd.a;
                 col.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

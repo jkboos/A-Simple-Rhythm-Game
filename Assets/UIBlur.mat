@@ -62,7 +62,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlurRadius: 0.003
-    - _BlurSize: 1
+    - _BlurSize: 3
     - _BumpScale: 1
     - _ColorMask: 15
     - _Cutoff: 0.5
@@ -78,6 +78,7 @@ Material:
     - _Samples: 5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Spread: 1.5
     - _SrcBlend: 1
     - _StandardDeviation: 4
     - _Stencil: 0

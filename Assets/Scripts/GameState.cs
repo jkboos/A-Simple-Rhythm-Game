@@ -36,6 +36,8 @@ public class GameState : MonoBehaviour
     StreamReader streamReader;
     private float end_time;
     private bool is_settle = false;
+    public Storyboard storyboard;
+    public Animator loading;
 
     void Start() {
         pause = false;
@@ -94,6 +96,13 @@ public class GameState : MonoBehaviour
         float t = -1130f/((speed+4)*400f)*1000f+250f+offset;
         t /= 1000f;
         // Debug.Log(t);
+        while (!storyboard.is_loaded)
+        {
+            Debug.Log("Waiting for storyboard");
+            yield return new WaitForSeconds(1f);
+        }
+        loading.SetTrigger("fadeout");
+        
         if(t < 0) {  
             yield return new WaitForSeconds(3+t);
             start_time = (float)Math.Round(Time.time*1000);
