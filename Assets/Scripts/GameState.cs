@@ -60,13 +60,15 @@ public class GameState : MonoBehaviour
             {
                 max = float.Parse(s[1]);
             }
-            else if(s.Length == 4 && float.Parse(s[1]) > max)
+            else if(s.Length == 4 && float.Parse(s[3]) > max)
             {
                 max = float.Parse(s[3]);
             }
         }
 
         end_time = max;
+        
+        Debug.Log("end_time: "+end_time);
     }
 
     void Update() {
