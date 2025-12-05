@@ -106,7 +106,6 @@ public class GameState : MonoBehaviour
         if(t < 0) {  
             yield return new WaitForSeconds(3+t);
             start_time = (float)Math.Round(Time.time*1000);
-            isStart = true;
             yield return new WaitForSeconds(-t);
             // GetComponent<GameMusicLoader>().PlayMusic();
             if (!background.gameObject.activeSelf)
@@ -117,6 +116,7 @@ public class GameState : MonoBehaviour
             AudioManager.Instance.resume_BGM();
             isMusicStart = true;
             KeyEvent.can_pause = true;
+            isStart = true;
 
         }
         else {

@@ -23,8 +23,11 @@ public class KeyEvent : MonoBehaviour
     public UnityEvent<GameObject, Action> fadeout;
     public UnityEvent<GameObject, Action> fadein;
     public Animator pause_animator;
+    public Animator warning;
 
     private bool is_fadeOut = false;
+    
+    public GameState gameController;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +81,10 @@ public class KeyEvent : MonoBehaviour
                 AudioManager.Instance.pause_BGM();
                 pause_canvas.SetActive(true);
                 pause_animator.SetTrigger("fadeIn");
+            }
+            else if (!can_pause && !GameState.pause && !GameState.gameover && gameController.isStart)
+            {
+                warning.SetTrigger("warn");
             }
             else if (GameState.gameover)
             {
