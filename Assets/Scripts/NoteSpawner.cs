@@ -43,7 +43,7 @@ public class NoteSpawner : MonoBehaviour
         
 
         float final_offset = -1130f/((speed+4)*400f)*1000f;
-        Debug.Log(final_offset);
+        Debug.Log("final offset: "+final_offset);
 
         streamReader = new StreamReader(StateController.songs_path[StateController.cur_song_index]+"\\note.txt");
         str = streamReader.ReadLine();
@@ -90,7 +90,7 @@ public class NoteSpawner : MonoBehaviour
             if(GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>().isStart && Time.time*1000-GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>().start_time >= times[index]) {
                 notes[index].SetActive(true);
             }
-            yield return new WaitForSeconds(0.001f);
+            yield return null;
         }
     }
 }
