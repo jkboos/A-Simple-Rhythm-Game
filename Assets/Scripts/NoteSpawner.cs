@@ -26,19 +26,16 @@ public class NoteSpawner : MonoBehaviour
     private float offset = 0;
     private IniManager iniManager = new IniManager(".\\settings.ini");
     public GameState gameState;
-    public GameObject combo_text;
 
     public void Start() {
         key = Int32.Parse(info.ReadIniFile("info", "Key", "4"));
         if(key == 4) {
             modeScene.transform.GetChild(0).gameObject.SetActive(true);
             modeScene.transform.GetChild(1).gameObject.SetActive(false);
-            combo_text.GetComponent<RectTransform>().position = new Vector3(893, 430, 0);
         }
         else if(key == 7) {
             modeScene.transform.GetChild(0).gameObject.SetActive(false);
             modeScene.transform.GetChild(1).gameObject.SetActive(true);
-            combo_text.GetComponent<RectTransform>().position = new Vector3(705, 443.8f, 0);
         }
 
         speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));

@@ -39,6 +39,8 @@ public class GameState : MonoBehaviour
     public Storyboard storyboard;
     public Animator loading;
     public GameObject particle;
+    public GameObject combo_text;
+    public GameObject acc_score;
 
     void Start() {
         pause = false;
@@ -49,6 +51,9 @@ public class GameState : MonoBehaviour
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
         StartCoroutine(delay());
         AudioManager.Instance.load_BGM(StateController.cur_song_index);
+        
+        combo_text.transform.position = new Vector3(GameObject.FindGameObjectWithTag("stage-center").transform.position.x, combo_text.transform.position.y, combo_text.transform.position.z);
+        acc_score.transform.position = new Vector3(GameObject.FindGameObjectWithTag("stage-center").transform.position.x, acc_score.transform.position.y, acc_score.transform.position.z);
 
         float max = 0;
         StreamReader reader = new StreamReader(StateController.cur_song_path + "\\note.txt");

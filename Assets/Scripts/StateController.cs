@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StateController : MonoBehaviour
+public class StateController
 {
     public static string[] songs_path = {};
     public static int cur_song_index = 4;

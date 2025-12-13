@@ -39,6 +39,7 @@ public class SelectMusicLoader : MonoBehaviour
     IEnumerator GetAudioClip(string file_path) {
         Debug.Log("file://"+file_path);
         UnityWebRequest _unityWebRequest = UnityWebRequestMultimedia.GetAudioClip("file://"+file_path, AudioType.MPEG);
+        ((DownloadHandlerAudioClip)_unityWebRequest.downloadHandler).streamAudio = true;
         yield return _unityWebRequest.SendWebRequest();
         AudioClip _audioClip = DownloadHandlerAudioClip.GetContent(_unityWebRequest);
         audioSource.clip = _audioClip;

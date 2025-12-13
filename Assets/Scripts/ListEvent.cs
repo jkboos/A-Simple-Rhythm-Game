@@ -5,8 +5,10 @@ using System;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Threading.Tasks;
 using TMPro;
 using ini_read_write;
+using Unity.VisualScripting;
 using UnityEngine.Events;
 
 public class ListEvent : MonoBehaviour
@@ -48,6 +50,11 @@ public class ListEvent : MonoBehaviour
 
     public void OnMovementEnd()
     {
+        StartCoroutine(ChangeSong());
+    }
+
+    IEnumerator ChangeSong()
+    {
         int index = Int32.Parse(_list.GetFocusingBox().name.Replace("SongButton (", "").Replace(")", ""));
         if(index < StateController.songs_path.Length) {
             canEnter = true;
@@ -63,10 +70,15 @@ public class ListEvent : MonoBehaviour
             {
                 StateController.list_box_init = false;
             }
-
-            DirectoryInfo direction = new DirectoryInfo(StateController.cur_song_path);
-            FileInfo[] files = direction.GetFiles("*.mp4");
-            if (files.Length > 0)
+            Task<BGManager.filesSearchResult> fileSearchTask = Task.Run(() =>
+            {
+                return BGManager.fileSearch(StateController.cur_song_path);
+            });
+            
+            yield return new WaitUntil(() => fileSearchTask.IsCompleted);
+            BGManager.filesSearchResult result = fileSearchTask.Result;
+            
+            if (result.has_video)
             {
                 video_icon.color = Color.green;
             }
@@ -74,10 +86,8 @@ public class ListEvent : MonoBehaviour
             {
                 video_icon.color = Color.red;
             }
-            
-            direction = new DirectoryInfo(StateController.cur_song_path);
-            files = direction.GetFiles("*.osb");
-            if (files.Length > 0)
+
+            if (result.has_storyboard)
             {
                 storyboard_icon.color = Color.green;
             }
@@ -86,19 +96,21 @@ public class ListEvent : MonoBehaviour
                 storyboard_icon.color = Color.red;
             }
             
-            BGManager.SetBackgroundImage(StateController.songs_path[index], background);
+            yield return StartCoroutine(BGManager.LoadBG(result.path, background));
             score.LoadScore();
             score.LoadTimeAndKey();
         }
         else {
             // musicLoader.StopMusic();
             AudioManager.Instance.stop_BGM();
-            BGManager.SetBackgroundImage(".\\", background);
+            yield return StartCoroutine(BGManager.LoadBG("NotFound.png", background));
             time.text = "00:00";
             key.text = "0k";
             canEnter = false;
             info_panel.transform.GetChild(2).gameObject.SetActive(false);
             info_panel.transform.GetChild(3).gameObject.SetActive(true);
         }
+        
+        yield return null;
     }
 }

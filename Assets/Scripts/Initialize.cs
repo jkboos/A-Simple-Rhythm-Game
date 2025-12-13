@@ -42,11 +42,18 @@ public class Initialize : MonoBehaviour
             {
                 StateController.cur_song_index = Array.IndexOf(StateController.songs_path, StateController.cur_song_path);
             }
-            BGManager.SetBackgroundImage(StateController.songs_path[StateController.cur_song_index], background);
+            
+            DirectoryInfo directory = new DirectoryInfo(StateController.cur_song_path);
+            FileInfo[] files = directory.GetFiles("*.jpg");
+            if (files.Length == 0)
+            {
+                files = directory.GetFiles("*.png");
+            }
+            StartCoroutine(BGManager.LoadBG(files[0].FullName, background));
         }
         else
         {
-            BGManager.SetBackgroundImage(".//", background);    
+            StartCoroutine(BGManager.LoadBG(".//", background));    
         }
         
     }

@@ -7,9 +7,8 @@ using System;
 public class SliderClickedEvent : MonoBehaviour
 {
     public AudioSource audioSource;
-    public GameObject[] score4K;
+    public Animator acc_score_animation;
     public Animator[] hitLights4K;
-    public GameObject[] score7K;
     public Animator[] hitLights7K;
     public KeyEvent keyEvent;
     public ScoreManager scoreManager;
@@ -71,68 +70,45 @@ public class SliderClickedEvent : MonoBehaviour
                         scoreManager.perfect_plus++;
                         scoreManager.combo++;
                         Destroy(note[0]);
-                        PlayScoreAnimation(0);
+                        acc_score_animation.SetTrigger("perfect+");
                     }
                     else if(note[0].GetComponent<SliderTimer>().average <= 50) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(300f/305f));
                         scoreManager.perfect++;
                         scoreManager.combo++;
                         Destroy(note[0]);
-                        PlayScoreAnimation(1);
+                        acc_score_animation.SetTrigger("perfect");
                     }
                     else if(note[0].GetComponent<SliderTimer>().average <= 60) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(200f/305f));
                         scoreManager.great++;
                         scoreManager.combo++;
                         Destroy(note[0]);
-                        PlayScoreAnimation(2);
+                        acc_score_animation.SetTrigger("great");
                     }
                     else if(note[0].GetComponent<SliderTimer>().average <= 80) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(100f/305f));
                         scoreManager.good++;
                         scoreManager.combo++;
                         Destroy(note[0]);
-                        PlayScoreAnimation(3);
+                        acc_score_animation.SetTrigger("good");
                     }
                     else if(note[0].GetComponent<SliderTimer>().average <= 100) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(50f/305f));
                         scoreManager.bad++;
                         scoreManager.combo++;
                         Destroy(note[0]);
-                        PlayScoreAnimation(4);
+                        acc_score_animation.SetTrigger("ok");
                     }
                     else {
                         scoreManager.miss++;
                         scoreManager.combo = 0;
                         Destroy(note[0]);
-                        PlayScoreAnimation(5);
+                        acc_score_animation.SetTrigger("miss");
                     }
                 }
             }
             yield return new WaitForSeconds(0);
-        }
-    }
-
-    void PlayScoreAnimation(int i) {
-        if(key == 4) {
-            score4K[i].GetComponent<Animator>().Play("score");
-            for(int j = 0; j< 5; j++) {
-                if(j == i) {
-                    continue;
-                }
-                score4K[j].GetComponent<Animator>().Play("Idle");
-                score4K[j].transform.localScale = new Vector3(0, 0, 0);
-            }
-        }
-        else if(key == 7) {
-            score7K[i].GetComponent<Animator>().Play("score");
-            for(int j = 0; j< 5; j++) {
-                if(j == i) {
-                    continue;
-                }
-                score7K[j].GetComponent<Animator>().Play("Idle");
-                score7K[j].transform.localScale = new Vector3(0, 0, 0);
-            }
         }
     }
 }

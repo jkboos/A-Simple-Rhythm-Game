@@ -8,15 +8,15 @@ public class movement : MonoBehaviour
 {  
     private int speed = 3;
     private IniManager iniManager = new IniManager(".\\settings.ini");
-    public Animator miss;
+    public Animator acc_score_animation;
     private ScoreManager scoreManager;
     private GameState gameState;
 
     void Start() {
         speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
-        miss = GameObject.FindGameObjectWithTag("miss").GetComponent<Animator>();
         scoreManager = GameObject.FindGameObjectWithTag("scoremanager").GetComponent<ScoreManager>();
         gameState = GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>();
+        acc_score_animation = GameObject.FindGameObjectWithTag("acc-score").GetComponent<Animator>();
     }
     
     void Update()
@@ -35,13 +35,13 @@ public class movement : MonoBehaviour
             
         }
         if((gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) && Time.time*1000-gameState.start_time-gameObject.GetComponent<NoteTimer>().clicked_timing > 100) {
-            miss.Play("score");
+            acc_score_animation.SetTrigger("miss");
             scoreManager.miss++;
             scoreManager.combo = 0;
             Destroy(gameObject);
         }
         else if((gameObject.tag.Contains("canpress") || gameObject.tag == "slider") && !gameObject.GetComponent<SliderTimer>().pressed && Time.time*1000-gameState.start_time-gameObject.GetComponent<SliderTimer>().clicked_timing > 100) {
-            miss.Play("score");
+            acc_score_animation.SetTrigger("miss");
             scoreManager.miss++;
             scoreManager.combo = 0;
             Destroy(gameObject);

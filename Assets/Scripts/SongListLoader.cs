@@ -52,7 +52,14 @@ public class SongListLoader : MonoBehaviour
             {
                 AudioManager.Instance.play_BGM(StateController.cur_song_index);
             }
-            BGManager.SetBackgroundImage(StateController.songs_path[StateController.cur_song_index], background);
+            DirectoryInfo directory = new DirectoryInfo(StateController.cur_song_path);
+            FileInfo[] files = directory.GetFiles("*.jpg");
+            if (files.Length == 0)
+            {
+                files = directory.GetFiles("*.png");
+            }
+            
+            StartCoroutine(BGManager.LoadBG(files[0].FullName, background));
             score.LoadScore();
             score.LoadTimeAndKey();
         }
