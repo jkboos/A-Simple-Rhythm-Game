@@ -19,11 +19,12 @@ public class ButtonEvent : MonoBehaviour
     public GameObject menu_canvas;
     public GameObject settings_canvas;
     public GameObject songlist_canvas;
+    public GameState gameState;
     
     
     public void GoSettings()
     {
-        AudioManager.Instance.play_button_click(StateController.button_click_sound);
+        AudioManager.Instance.playSFX(StateController.button_click_sound);
         
         fadeout.Invoke(menu_canvas, () =>
         {
@@ -34,7 +35,7 @@ public class ButtonEvent : MonoBehaviour
     }
     
     public void BackToMenu() {
-        AudioManager.Instance.play_button_click(StateController.button_click_sound);
+        AudioManager.Instance.playSFX(StateController.button_click_sound);
         
         fadeout.Invoke(settings_canvas, () =>
         {
@@ -75,13 +76,18 @@ public class ButtonEvent : MonoBehaviour
     
     public void GoToSelectSong()
     {
-        AudioManager.Instance.play_button_click(StateController.button_click_sound);
+        AudioManager.Instance.playSFX(StateController.button_click_sound);
         fadeout.Invoke(menu_canvas, () => SceneManager.LoadScene("SelectSong"));
     }
     public void BackToSelectSong()
     {
         StateController.list_box_init = true;
+        AudioManager.Instance.stop_BGM();
         AudioManager.Instance.fadein_resume_BGM();
+        if (gameState.is_death)
+        {
+            menu_canvas = GameObject.FindGameObjectWithTag("fail-canvas");
+        }
         fadeout.Invoke(menu_canvas, () =>
         {
             Time.timeScale = 1;
@@ -91,7 +97,7 @@ public class ButtonEvent : MonoBehaviour
     
     public void GoToMenu() 
     {
-        AudioManager.Instance.play_button_click(StateController.button_click_sound);
+        AudioManager.Instance.playSFX(StateController.button_click_sound);
         fadeout.Invoke(songlist_canvas, () => SceneManager.LoadScene("Menu"));
     }
 
@@ -104,7 +110,7 @@ public class ButtonEvent : MonoBehaviour
     {
         Time.timeScale = 1;
         AudioManager.Instance.stop_BGM();
-        AudioManager.Instance.play_button_click(StateController.button_click_sound);
+        AudioManager.Instance.playSFX(StateController.button_click_sound);
         SceneManager.LoadScene("PlayScene");
     }
 }

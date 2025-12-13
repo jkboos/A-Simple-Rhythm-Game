@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 25416aa766546f04086ba10613df7edf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2502414481628920022
+    second: death_transition47_0
+  - first:
+      213: 3235373863603992345
+    second: death_transition47_1
+  - first:
+      213: 7355395739802565376
+    second: death_transition47_2
+  - first:
+      213: 1864441408701708093
+    second: death_transition47_3
+  - first:
+      213: 7781729273865053269
+    second: death_transition47_4
+  - first:
+      213: 2385977748053182845
+    second: death_transition47_5
+  - first:
+      213: 3409308208084263917
+    second: death_transition47_6
+  - first:
+      213: -1159484730722127165
+    second: death_transition47_7
+  - first:
+      213: 495008668808067926
+    second: death_transition47_8
+  - first:
+      213: 381067105400482019
+    second: death_transition47_9
+  - first:
+      213: -8013433221100209797
+    second: death_transition47_10
+  - first:
+      213: 5478739953629892891
+    second: death_transition47_11
+  - first:
+      213: -7728846184477941323
+    second: death_transition47_12
+  - first:
+      213: -279706305293686108
+    second: death_transition47_13
+  - first:
+      213: -3492946131179658937
+    second: death_transition47_14
+  - first:
+      213: 1719277571377725937
+    second: death_transition47_15
+  - first:
+      213: 5489387739607939105
+    second: death_transition47_16
+  - first:
+      213: -5616721178077797050
+    second: death_transition47_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: death_transition47_0
+      rect:
+        serializedVersion: 2
+        x: 1509
+        y: 1006
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d8f84276bc5ab220800000000000000
+      internalID: 2502414481628920022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_1
+      rect:
+        serializedVersion: 2
+        x: 1640
+        y: 913
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 917f2bf136b56ec20800000000000000
+      internalID: 3235373863603992345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_2
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 618
+        width: 31
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00b7a5d647d931660800000000000000
+      internalID: 7355395739802565376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_3
+      rect:
+        serializedVersion: 2
+        x: 1806
+        y: 458
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d37b13e3593dfd910800000000000000
+      internalID: 1864441408701708093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_4
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 437
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5542cf29b814efb60800000000000000
+      internalID: 7781729273865053269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_5
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 275
+        width: 36
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7942b2de12bc1120800000000000000
+      internalID: 2385977748053182845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_6
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 181
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de3afa080cb405f20800000000000000
+      internalID: 3409308208084263917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_7
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 146
+        width: 22
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c271d6d7cea8efe0800000000000000
+      internalID: -1159484730722127165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_8
+      rect:
+        serializedVersion: 2
+        x: 1787
+        y: 67
+        width: 86
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65b3b09f2cf9ed600800000000000000
+      internalID: 495008668808067926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_9
+      rect:
+        serializedVersion: 2
+        x: 1783
+        y: 105
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e86bfc6382d94500800000000000000
+      internalID: 381067105400482019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_10
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 103
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b79f10141f09ac090800000000000000
+      internalID: -8013433221100209797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_11
+      rect:
+        serializedVersion: 2
+        x: 1756
+        y: 61
+        width: 32
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1199d0d5f4680c40800000000000000
+      internalID: 5478739953629892891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_12
+      rect:
+        serializedVersion: 2
+        x: 1787
+        y: 79
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b12f8a285f9db490800000000000000
+      internalID: -7728846184477941323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_13
+      rect:
+        serializedVersion: 2
+        x: 1795
+        y: 26
+        width: 46
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa6887e8984e1cf0800000000000000
+      internalID: -279706305293686108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_14
+      rect:
+        serializedVersion: 2
+        x: 1811
+        y: 55
+        width: 6
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74126770000968fc0800000000000000
+      internalID: -3492946131179658937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_15
+      rect:
+        serializedVersion: 2
+        x: 1855
+        y: 11
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f1044097d91cd710800000000000000
+      internalID: 1719277571377725937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_16
+      rect:
+        serializedVersion: 2
+        x: 1891
+        y: 0
+        width: 29
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12837bda0193e2c40800000000000000
+      internalID: 5489387739607939105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_transition47_17
+      rect:
+        serializedVersion: 2
+        x: 1895
+        y: 14
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6456242e8d56d02b0800000000000000
+      internalID: -5616721178077797050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      death_transition47_0: 2502414481628920022
+      death_transition47_1: 3235373863603992345
+      death_transition47_10: -8013433221100209797
+      death_transition47_11: 5478739953629892891
+      death_transition47_12: -7728846184477941323
+      death_transition47_13: -279706305293686108
+      death_transition47_14: -3492946131179658937
+      death_transition47_15: 1719277571377725937
+      death_transition47_16: 5489387739607939105
+      death_transition47_17: -5616721178077797050
+      death_transition47_2: 7355395739802565376
+      death_transition47_3: 1864441408701708093
+      death_transition47_4: 7781729273865053269
+      death_transition47_5: 2385977748053182845
+      death_transition47_6: 3409308208084263917
+      death_transition47_7: -1159484730722127165
+      death_transition47_8: 495008668808067926
+      death_transition47_9: 381067105400482019
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

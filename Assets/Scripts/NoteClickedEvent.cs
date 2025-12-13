@@ -40,46 +40,80 @@ public class NoteClickedEvent : MonoBehaviour
                     else if(key == 7) {
                         hitLights7K[i].Play("hit");
                     }
-                    if(note[0].GetComponent<NoteTimer>().timing <= 30) {
+                    if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
                         scoreManager.score += scoreManager.MAX_SCORE/gameState.note_amount;
                         scoreManager.perfect_plus++;
                         scoreManager.combo++;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("perfect+");
+
+                        if (gameState.health < gameState.MAX_HEALTH)
+                        {
+                            gameState.health += gameState.base_recovery;
+                            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
+                        }
                     }
-                    else if(note[0].GetComponent<NoteTimer>().timing <= 50) {
+                    else if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_offset) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(300f/305f));
                         scoreManager.perfect++;
                         scoreManager.combo++;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("perfect");
+                        
+                        if (gameState.health < gameState.MAX_HEALTH)
+                        {
+                            gameState.health += gameState.base_recovery;
+                            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
+                        }
                     }
-                    else if(note[0].GetComponent<NoteTimer>().timing <= 60) {
+                    else if(note[0].GetComponent<NoteTimer>().timing <= gameState.great_offset) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(200f/305f));
                         scoreManager.great++;
                         scoreManager.combo++;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("great");
+                        
+                        if (gameState.health < gameState.MAX_HEALTH)
+                        {
+                            gameState.health += gameState.base_recovery*(200f/305f);
+                            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
+                        }
                     }
-                    else if(note[0].GetComponent<NoteTimer>().timing <= 80) {
+                    else if(note[0].GetComponent<NoteTimer>().timing <= gameState.good_offset) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(100f/305f));
                         scoreManager.good++;
                         scoreManager.combo++;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("good");
+                        
+                        if (gameState.health < gameState.MAX_HEALTH)
+                        {
+                            gameState.health += gameState.base_recovery*(100f/305f);
+                            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
+                        }
                     }
-                    else if(note[0].GetComponent<NoteTimer>().timing <= 100) {
+                    else if(note[0].GetComponent<NoteTimer>().timing <= gameState.ok_offset) {
                         scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(50f/305f));
                         scoreManager.bad++;
                         scoreManager.combo++;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("ok");
+                        
+                        if (gameState.health < gameState.MAX_HEALTH)
+                        {
+                            gameState.health += gameState.base_recovery*(50f/305f);
+                            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
+                        }
                     }
                     else {
                         scoreManager.miss++;
                         scoreManager.combo = 0;
                         Destroy(note[0]);
                         acc_score_animation.SetTrigger("miss");
+                        
+                        gameState.health -= gameState.base_damage;
+                        if(gameState.health < 0)  gameState.health = 0;
+                        
                     }
                 }
             }

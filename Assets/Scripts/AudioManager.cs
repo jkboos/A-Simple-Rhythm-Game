@@ -10,9 +10,9 @@ public class AudioManager : MonoBehaviour
 {
     IniManager iniManager = new IniManager(".\\settings.ini");
     public static AudioManager Instance;
-
-    private AudioSource button_click;
+    
     private AudioSource BGM;
+    private AudioSource SFX;
     private bool fadein = false;
     
     [Range(0, 1)]
@@ -25,8 +25,8 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             
-            button_click = gameObject.AddComponent<AudioSource>();
             BGM = gameObject.AddComponent<AudioSource>();
+            SFX = gameObject.AddComponent<AudioSource>();
             
         }
         else
@@ -42,12 +42,17 @@ public class AudioManager : MonoBehaviour
         }
         
     }
+    
 
-    public void play_button_click(AudioClip clip)
+    public void playSFX(AudioClip clip)
     {
-        button_click.PlayOneShot(clip);
+        SFX.PlayOneShot(clip);
     }
 
+    public void play_BGM(AudioClip clip)
+    {
+        BGM.PlayOneShot(clip);
+    }
     public void play_BGM(int index)
     {
         StartCoroutine(GetAudioClip(GetAudiosByPath(StateController.songs_path[StateController.cur_song_index]), () => BGM.Play()));

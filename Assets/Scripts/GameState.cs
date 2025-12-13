@@ -1,15 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using ini_read_write;
-using System.Globalization;
-using System.Linq;
 using TMPro;
 using UnityEngine.Video;
+using DG.Tweening;
 
 public class GameState : MonoBehaviour
 {
@@ -41,8 +38,29 @@ public class GameState : MonoBehaviour
     public GameObject particle;
     public GameObject combo_text;
     public GameObject acc_score;
+    public GameObject health_bar;
+    private Image health_bar_image;
+
+    public float health_dotween = 0;
+    public float MAX_HEALTH = 100;
+    public float health = 100;
+    public float base_damage = 5;
+    public float base_recovery = 0.5f;
+
+    public float perfect_plus_offset = 20;
+    public float perfect_offset = 40;
+    public float great_offset = 60;
+    public float good_offset = 70;
+    public float ok_offset = 80;
+
+    public float miss_offset = 100;
+
+    public bool is_death = false;
+
+    public GameObject death_transition;
 
     void Start() {
+        health =  MAX_HEALTH;
         pause = false;
         gameover = false;
         speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
@@ -51,9 +69,14 @@ public class GameState : MonoBehaviour
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
         StartCoroutine(delay());
         AudioManager.Instance.load_BGM(StateController.cur_song_index);
+
+        GameObject stage_center = GameObject.FindGameObjectWithTag("stage-center");
+        combo_text.transform.position = new Vector3(stage_center.transform.position.x, combo_text.transform.position.y, combo_text.transform.position.z);
+        acc_score.transform.position = new Vector3(stage_center.transform.position.x, acc_score.transform.position.y, acc_score.transform.position.z);
+        health_bar.transform.position = new Vector3(stage_center.transform.position.x + stage_center.GetComponent<RectTransform>().sizeDelta.x / 2 + health_bar.GetComponent<RectTransform>().sizeDelta.y / 2 + 50, Screen.height / 2, health_bar.transform.position.z);
+        health_bar_image = health_bar.transform.GetChild(0).GetComponent<Image>();
         
-        combo_text.transform.position = new Vector3(GameObject.FindGameObjectWithTag("stage-center").transform.position.x, combo_text.transform.position.y, combo_text.transform.position.z);
-        acc_score.transform.position = new Vector3(GameObject.FindGameObjectWithTag("stage-center").transform.position.x, acc_score.transform.position.y, acc_score.transform.position.z);
+        updateHealth();
 
         float max = 0;
         StreamReader reader = new StreamReader(StateController.cur_song_path + "\\note.txt");
@@ -77,6 +100,19 @@ public class GameState : MonoBehaviour
     }
 
     void Update() {
+        health_bar_image.fillAmount = health_dotween / 100f;
+
+        if (health <= 0 && !is_death)
+        {
+            is_death = true;
+            gameover = true;
+            Time.timeScale = 0;
+            death_transition.SetActive(true);
+            death_transition.GetComponent<Animator>().SetTrigger("death");
+            AudioManager.Instance.stop_BGM();
+            AudioManager.Instance.playSFX(StateController.death_sound);
+        }
+        
         if(isMusicStart && !is_settle && end_time < Time.time*1000 - start_time) { 
             is_settle = true;
             gameover = true;
@@ -105,6 +141,14 @@ public class GameState : MonoBehaviour
         modeScene.transform.GetChild(3).gameObject.SetActive(true);
 
         scoreManager.SettleScore();
+    }
+    
+    void updateHealth() {
+        DOVirtual.Float(health_dotween, health, 0.2f, (x) => {
+            health_dotween = x;
+        }).OnComplete(() => {
+            updateHealth();
+        });
     }
 
     IEnumerator delay() {

@@ -34,17 +34,23 @@ public class movement : MonoBehaviour
             }
             
         }
-        if((gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) && Time.time*1000-gameState.start_time-gameObject.GetComponent<NoteTimer>().clicked_timing > 100) {
+        if((gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) && Time.time*1000-gameState.start_time-gameObject.GetComponent<NoteTimer>().clicked_timing > gameState.miss_offset) {
             acc_score_animation.SetTrigger("miss");
             scoreManager.miss++;
             scoreManager.combo = 0;
             Destroy(gameObject);
+            
+            gameState.health -= gameState.base_damage;
+            if(gameState.health < 0)  gameState.health = 0;
         }
-        else if((gameObject.tag.Contains("canpress") || gameObject.tag == "slider") && !gameObject.GetComponent<SliderTimer>().pressed && Time.time*1000-gameState.start_time-gameObject.GetComponent<SliderTimer>().clicked_timing > 100) {
+        else if((gameObject.tag.Contains("canpress") || gameObject.tag == "slider") && !gameObject.GetComponent<SliderTimer>().pressed && Time.time*1000-gameState.start_time-gameObject.GetComponent<SliderTimer>().clicked_timing > gameState.miss_offset) {
             acc_score_animation.SetTrigger("miss");
             scoreManager.miss++;
             scoreManager.combo = 0;
             Destroy(gameObject);
+
+            gameState.health -= gameState.base_damage;
+            if(gameState.health < 0)  gameState.health = 0;
         }
     }
 }
