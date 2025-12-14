@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StateController
@@ -9,4 +10,9 @@ public class StateController
     public static AudioClip death_sound =  Resources.Load<AudioClip>("SFX/death");
     public static AudioClip fail_music =  Resources.Load<AudioClip>("fail/fail_music");
     public static bool list_box_init = true;
+    
+    public static Dictionary<string, bool> mods = new Dictionary<string, bool>
+    {
+        ["NF"] = false,
+    };
 }

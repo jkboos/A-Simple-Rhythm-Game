@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ini_read_write;
 using TMPro;
-using AirFishLab.ScrollingList;
 using UnityEngine.Events;
-using UnityEngine.UI;
-
+using DG.Tweening;
 
 public class ButtonEvent : MonoBehaviour
 {
@@ -20,6 +16,10 @@ public class ButtonEvent : MonoBehaviour
     public GameObject settings_canvas;
     public GameObject songlist_canvas;
     public GameState gameState;
+    public GameObject mods_panel;
+
+    public float mods_default_posX = 100;
+    private float mods_posX = 0;
     
     
     public void GoSettings()
@@ -112,5 +112,74 @@ public class ButtonEvent : MonoBehaviour
         AudioManager.Instance.stop_BGM();
         AudioManager.Instance.playSFX(StateController.button_click_sound);
         SceneManager.LoadScene("PlayScene");
+    }
+
+    public void ModsTab()
+    {
+        if (mods_posX == 0)
+        {
+            DOVirtual.Float(mods_posX, mods_default_posX, 0.2f, (x) => {
+                mods_posX = x;
+                mods_panel.GetComponent<RectTransform>().anchoredPosition = new Vector3(mods_posX, mods_panel.GetComponent<RectTransform>().anchoredPosition.y, 0);
+            });
+        }
+        else
+        {
+            DOVirtual.Float(mods_posX, 0, 0.2f, (x) => {
+                mods_posX = x;
+                mods_panel.GetComponent<RectTransform>().anchoredPosition = new Vector3(mods_posX, mods_panel.GetComponent<RectTransform>().anchoredPosition.y, 0);
+            });
+        }
+    }
+    
+    public void ActivateMods(GameObject button)
+    {
+        float angle(float a)
+        {
+            if(a <= 180f)
+            {
+                return a;
+            }
+            else
+            {
+                return a - 360f;
+            }
+        }
+        
+        
+        bool active;
+        if (button.tag == "mod-active")
+        {
+            active = false;
+            button.tag = "Untagged";
+            
+            float scale = button.transform.localScale.x;
+            float rotation = angle(button.transform.localRotation.eulerAngles.z);
+            DOVirtual.Float(scale, 1, 0.2f, (x) => {
+                scale = x;
+                button.transform.localScale = new Vector3(scale, scale, scale);
+            });
+            DOVirtual.Float(rotation, 0, 0.2f, (x) => {
+                rotation = x;
+                button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+            });
+        }
+        else
+        {
+            active = true;
+            button.tag = "mod-active";
+            
+            float scale = button.transform.localScale.x;
+            float rotation = angle(button.transform.localRotation.eulerAngles.z);
+            DOVirtual.Float(scale, 1.05f, 0.2f, (x) => {
+                scale = x;
+                button.transform.localScale = new Vector3(scale, scale, scale);
+            });
+            DOVirtual.Float(rotation, -8, 0.2f, (x) => {
+                rotation = x;
+                button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+            });
+        }
+        StateController.mods[button.name] = active;
     }
 }

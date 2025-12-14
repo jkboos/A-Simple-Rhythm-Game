@@ -102,7 +102,7 @@ public class GameState : MonoBehaviour
     void Update() {
         health_bar_image.fillAmount = health_dotween / 100f;
 
-        if (health <= 0 && !is_death)
+        if (!StateController.mods["NF"] && health <= 0 && !is_death)
         {
             is_death = true;
             gameover = true;
