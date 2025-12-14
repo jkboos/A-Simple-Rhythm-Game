@@ -22,7 +22,7 @@ public class NoteSpawner : MonoBehaviour
     string[] line;
     List<GameObject> notes = new List<GameObject>();
     public List<float> times = new List<float>();
-    private int speed = 3;
+    private float speed = 3;
     private float offset = 0;
     private IniManager iniManager = new IniManager(".\\settings.ini");
     public GameState gameState;
@@ -38,11 +38,11 @@ public class NoteSpawner : MonoBehaviour
             modeScene.transform.GetChild(1).gameObject.SetActive(true);
         }
 
-        speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
         offset = float.Parse(iniManager.ReadIniFile("settings", "offset", "0"), CultureInfo.InvariantCulture.NumberFormat);
         
 
-        float final_offset = -1130f/((speed+4)*400f)*1000f;
+        float final_offset = -1130f/((speed)*400f)*1000f;
         Debug.Log("final offset: "+final_offset);
 
         streamReader = new StreamReader(StateController.songs_path[StateController.cur_song_index]+"\\note.txt");
@@ -60,7 +60,7 @@ public class NoteSpawner : MonoBehaviour
             else {
                 n = Instantiate(slider, parent.transform, parent);
                 float t = float.Parse(line[3], CultureInfo.InvariantCulture.NumberFormat)-float.Parse(line[1], CultureInfo.InvariantCulture.NumberFormat);
-                float h = t/(Time.deltaTime*1000)*((speed+4)*400*Time.deltaTime);
+                float h = t/(Time.deltaTime*1000)*((speed)*400*Time.deltaTime);
                 GameObject center = n.transform.GetChild(0).gameObject;
                 GameObject top = n.transform.GetChild(1).gameObject;
                 GameObject bottom = n.transform.GetChild(2).gameObject;

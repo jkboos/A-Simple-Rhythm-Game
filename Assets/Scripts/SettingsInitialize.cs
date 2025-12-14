@@ -28,7 +28,7 @@ public class SettingsInitialize : MonoBehaviour
         VolumeValue.GetComponent<TMP_Text>().text = (int)Math.Round(volume*100) + "%";
 
         //Speed
-        int speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "0"));
+        float speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "0"));
         SpeedSlider.GetComponent<Slider>().value = speed;
         SpeedValue.GetComponent<TMP_Text>().text = speed.ToString();
 

@@ -23,7 +23,7 @@ public class GameState : MonoBehaviour
 
     private IniManager iniManager = new IniManager(".\\settings.ini");
     
-    private int speed;
+    private float speed;
     private int offset;
     public int note_amount = 0;
     private bool isMusicStart = false;
@@ -63,7 +63,7 @@ public class GameState : MonoBehaviour
         health =  MAX_HEALTH;
         pause = false;
         gameover = false;
-        speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
         offset = Int32.Parse(iniManager.ReadIniFile("settings", "offset", "0"));
         time.GetComponent<TMP_Text>().autoSizeTextContainer = true;
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
@@ -113,12 +113,12 @@ public class GameState : MonoBehaviour
             AudioManager.Instance.playSFX(StateController.death_sound);
         }
         
-        if(isMusicStart && !is_settle && end_time < Time.time*1000 - start_time) { 
+        if(isStart && !is_settle && end_time < Time.time*1000 - start_time) { 
             is_settle = true;
             gameover = true;
             StartCoroutine(Settle());
         }
-        else if (isMusicStart && !is_settle)
+        else if (isStart && !is_settle)
         {
             progressbar.GetComponent<RectTransform>().offsetMax = new Vector2(
                 -Screen.width + Screen.width * ((Time.time * 1000 - start_time) / end_time),
@@ -153,7 +153,7 @@ public class GameState : MonoBehaviour
 
     IEnumerator delay() {
         StreamReader streamReader = new StreamReader(StateController.songs_path[StateController.cur_song_index]+"\\note.txt");
-        float t = -1130f/((speed+4)*400f)*1000f+250f+offset;
+        float t = -1130f/((speed)*400f)*1000f+250f+offset;
         t /= 1000f;
         // Debug.Log(t);
         while (!storyboard.is_loaded)

@@ -29,8 +29,8 @@ public class SliderEvent : MonoBehaviour
     }
 
     public void SpeedChanged() {
-        int value = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "0"));
-        value = (int)objects[3].GetComponent<Slider>().value;
+        float value = float.Parse(iniManager.ReadIniFile("settings", "speed", "0"));
+        value = MathF.Round(objects[3].GetComponent<Slider>().value, 1);
         iniManager.WriteIniFile("settings", "speed", value);
 
         objects[1].GetComponent<TMP_Text>().text = value.ToString();

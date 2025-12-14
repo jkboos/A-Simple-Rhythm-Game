@@ -1059,6 +1059,9 @@ MonoBehaviour:
   menu_canvas: {fileID: 192466473}
   settings_canvas: {fileID: 966297623}
   songlist_canvas: {fileID: 0}
+  gameState: {fileID: 0}
+  mods_panel: {fileID: 0}
+  mods_default_posX: 100
 --- !u!4 &263373579
 Transform:
   m_ObjectHideFlags: 0
@@ -3987,9 +3990,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 1
-  m_MaxValue: 6
-  m_WholeNumbers: 1
-  m_Value: 6
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -8771,7 +8774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 6
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a313d75a1cb3274bb177348ce476ac5, type: 2}
   m_sharedMaterial: {fileID: -6342176324196019519, guid: 1a313d75a1cb3274bb177348ce476ac5, type: 2}

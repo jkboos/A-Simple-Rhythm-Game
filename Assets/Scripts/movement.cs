@@ -6,14 +6,14 @@ using System;
 
 public class movement : MonoBehaviour
 {  
-    private int speed = 3;
+    private float speed = 3;
     private IniManager iniManager = new IniManager(".\\settings.ini");
     public Animator acc_score_animation;
     private ScoreManager scoreManager;
     private GameState gameState;
 
     void Start() {
-        speed = Int32.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
         scoreManager = GameObject.FindGameObjectWithTag("scoremanager").GetComponent<ScoreManager>();
         gameState = GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>();
         acc_score_animation = GameObject.FindGameObjectWithTag("acc-score").GetComponent<Animator>();
@@ -22,7 +22,7 @@ public class movement : MonoBehaviour
     void Update()
     {
         if(gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) {
-            transform.position = new Vector3(transform.parent.position.x, transform.position.y-400*(speed+4)*Time.deltaTime, transform.position.z);
+            transform.position = new Vector3(transform.parent.position.x, transform.position.y-400*(speed)*Time.deltaTime, transform.position.z);
         }
         else if(gameObject.tag.Contains("canpress") || gameObject.tag == "slider") {
             for(int i = 0; i< 3; i++) {
@@ -30,7 +30,7 @@ public class movement : MonoBehaviour
                 if(gameObject.transform.GetChild(1).gameObject.transform.position.y <= gameObject.transform.GetChild(2).gameObject.transform.position.y && i == 1) {
                     continue;
                 }
-                part.transform.position = new Vector3(part.transform.parent.position.x, part.transform.position.y-400*(speed+4)*Time.deltaTime, part.transform.position.z);
+                part.transform.position = new Vector3(part.transform.parent.position.x, part.transform.position.y-400*(speed)*Time.deltaTime, part.transform.position.z);
             }
             
         }
