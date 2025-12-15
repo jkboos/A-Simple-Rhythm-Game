@@ -12,6 +12,7 @@ public class GameState : MonoBehaviour
 {
 
     public float start_time = 0;
+    public float music_start_time = 0;
     public bool isStart = false;
     public Image background;
     public GameObject blackMask;
@@ -26,7 +27,7 @@ public class GameState : MonoBehaviour
     private float speed;
     private int offset;
     public int note_amount = 0;
-    private bool isMusicStart = false;
+    public bool isMusicStart = false;
 
     public static bool pause = false;
     public static bool gameover = false;
@@ -165,8 +166,8 @@ public class GameState : MonoBehaviour
         
         if(t < 0) {  
             yield return new WaitForSeconds(3+t);
-            start_time = (float)Math.Round(Time.time*1000);
             isStart = true;
+            start_time = (float)Math.Round(Time.time*1000);
             yield return new WaitForSeconds(-t);
             // GetComponent<GameMusicLoader>().PlayMusic();
             if (!background.gameObject.activeSelf)
@@ -177,6 +178,7 @@ public class GameState : MonoBehaviour
             }
             AudioManager.Instance.resume_BGM();
             isMusicStart = true;
+            music_start_time = (float)Math.Round(Time.time*1000);
             KeyEvent.can_pause = true;
             
 
@@ -191,6 +193,7 @@ public class GameState : MonoBehaviour
             }
             AudioManager.Instance.resume_BGM();
             isMusicStart = true;
+            music_start_time = (float)Math.Round(Time.time*1000);
             KeyEvent.can_pause = true;
             yield return new WaitForSeconds(t);
             start_time = (float)Math.Round(Time.time*1000);

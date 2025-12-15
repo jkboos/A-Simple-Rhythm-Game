@@ -83,9 +83,9 @@ public class Storyboard : MonoBehaviour
 
     void Update()
     {
-        if (gameController.isStart)
+        if (gameController.isMusicStart)
         {
-            float time = (Time.time * 1000f - gameController.start_time);
+            float time = (Time.time * 1000f - gameController.music_start_time);
 
             foreach (var sprite in activeSprites) sprite.UpdateAnimation(time);
             UpdateSamples(time);
