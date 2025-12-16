@@ -1,65 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ini_read_write;
 using System;
+using ini_read_write;
+using UnityEngine;
 
-public class NoteClickedEvent : MonoBehaviour
+public class AutoNote : MonoBehaviour
 {
     public ScoreManager scoreManager;
-    public AudioSource audioSource;
-    public KeyEvent keyEvent;
     public Animator acc_score_animation;
-    public Animator[] hitLights4K;
-    public Animator[] hitLights7K;
-
-    private IniManager settings = new IniManager(".\\settings.ini");
+    
+    public Animator[] hitLights4K =  new Animator[4];
+    public Animator[] hitLights7K =   new Animator[7];
+    
     private IniManager info = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\info.ini");
     public GameState gameState;
 
     private int key = 4;
-    // Start is called before the first frame update
     void Start()
     {
         key = Int32.Parse(info.ReadIniFile("info", "Key", "4"));
-        if (!StateController.mods["AT"])
-        {
-            for (int i = 0; i < key; i++)
+        
+        if(key == 4){
+            GameObject[] lights = GameObject.FindGameObjectsWithTag("4k-hit-light");
+            Array.Sort(lights, (a, b) => a.name.CompareTo(b.name));
+            for (int i = 0; i < hitLights4K.Length; i++)
             {
-                StartCoroutine(KeyEvent(i));
+                hitLights4K[i] = lights[i].GetComponent<Animator>();
             }
         }
-    }
-
-    IEnumerator KeyEvent(int i) {
-        yield return new WaitForSeconds(0.02f);
-        while(true) {
-            GameObject[] note = GameObject.FindGameObjectsWithTag("canclick"+i);
-
-            if(note.Length > 0) {
-                if(keyEvent.KeyDownEvents[i]) {
-                    
-                    if(key == 4) {
-                        hitLights4K[i].Play("hit");
-                    }
-                    else if(key == 7) {
-                        hitLights7K[i].Play("hit");
-                    }
-                    
-                    score(note);
-                }
+        else if (key == 7)
+        {
+            GameObject[] lights = GameObject.FindGameObjectsWithTag("7k-hit-light");
+            Array.Sort(lights, (a, b) => a.name.CompareTo(b.name));
+            for (int i = 0; i < hitLights7K.Length; i++)
+            {
+                hitLights7K[i] = lights[i].GetComponent<Animator>();
             }
-            yield return null;
         }
+
+        gameState = GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>();
+        acc_score_animation = GameObject.FindGameObjectWithTag("acc-score").GetComponent<Animator>();
+        scoreManager = GameObject.FindGameObjectWithTag("scoremanager").GetComponent<ScoreManager>();
     }
 
-    void score(GameObject[] note)
+    // Update is called once per frame
+    void Update()
     {
-        if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
+        if(GetComponent<NoteTimer>().timing < gameState.perfect_plus_offset)
+        {
+            if(key == 4) {
+                hitLights4K[Int32.Parse(transform.parent.name)].Play("hit");
+            }
+            else if(key == 7) {
+                hitLights7K[Int32.Parse(transform.parent.name)].Play("hit");
+            }
+            score();
+                    
+        }
+        
+    }
+    
+    void score()
+    {
+        if(GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
             scoreManager.score += scoreManager.MAX_SCORE/gameState.note_amount;
             scoreManager.perfect_plus++;
             scoreManager.combo++;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("perfect+");
 
             if (gameState.health < gameState.MAX_HEALTH)
@@ -68,11 +73,11 @@ public class NoteClickedEvent : MonoBehaviour
                 if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
             }
         }
-        else if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_offset) {
+        else if(GetComponent<NoteTimer>().timing <= gameState.perfect_offset) {
             scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(300f/305f));
             scoreManager.perfect++;
             scoreManager.combo++;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("perfect");
             
             if (gameState.health < gameState.MAX_HEALTH)
@@ -81,11 +86,11 @@ public class NoteClickedEvent : MonoBehaviour
                 if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
             }
         }
-        else if(note[0].GetComponent<NoteTimer>().timing <= gameState.great_offset) {
+        else if(GetComponent<NoteTimer>().timing <= gameState.great_offset) {
             scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(200f/305f));
             scoreManager.great++;
             scoreManager.combo++;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("great");
             
             if (gameState.health < gameState.MAX_HEALTH)
@@ -94,11 +99,11 @@ public class NoteClickedEvent : MonoBehaviour
                 if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
             }
         }
-        else if(note[0].GetComponent<NoteTimer>().timing <= gameState.good_offset) {
+        else if(GetComponent<NoteTimer>().timing <= gameState.good_offset) {
             scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(100f/305f));
             scoreManager.good++;
             scoreManager.combo++;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("good");
             
             if (gameState.health < gameState.MAX_HEALTH)
@@ -107,11 +112,11 @@ public class NoteClickedEvent : MonoBehaviour
                 if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
             }
         }
-        else if(note[0].GetComponent<NoteTimer>().timing <= gameState.ok_offset) {
+        else if(GetComponent<NoteTimer>().timing <= gameState.ok_offset) {
             scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(50f/305f));
             scoreManager.bad++;
             scoreManager.combo++;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("ok");
             
             if (gameState.health < gameState.MAX_HEALTH)
@@ -123,7 +128,7 @@ public class NoteClickedEvent : MonoBehaviour
         else {
             scoreManager.miss++;
             scoreManager.combo = 0;
-            Destroy(note[0]);
+            Destroy(gameObject);
             acc_score_animation.SetTrigger("miss");
             
             gameState.health -= gameState.base_damage;

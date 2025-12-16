@@ -23,6 +23,7 @@ public class GameState : MonoBehaviour
     public GameObject time;
 
     private IniManager iniManager = new IniManager(".\\settings.ini");
+    private IniManager info = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\info.ini");
     
     private float speed;
     private int offset;
@@ -63,6 +64,16 @@ public class GameState : MonoBehaviour
     public float speed_multiplier = 1;
 
     void Awake() {
+        int key = Int32.Parse(info.ReadIniFile("info", "Key", "4"));
+        if(key == 4) {
+            modeScene.transform.GetChild(0).gameObject.SetActive(true);
+            modeScene.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else if(key == 7) {
+            modeScene.transform.GetChild(0).gameObject.SetActive(false);
+            modeScene.transform.GetChild(1).gameObject.SetActive(true);
+        }
+        
         if (StateController.mods["DT"])
         {
             speed_multiplier = 1.5f;
@@ -70,6 +81,40 @@ public class GameState : MonoBehaviour
         else if (StateController.mods["HT"])
         {
             speed_multiplier = 0.75f;
+        }
+
+        if (StateController.mods["EZ"])
+        {
+            perfect_plus_offset += 10;
+            perfect_offset += 10;
+            great_offset += 10;
+            good_offset += 10;
+            ok_offset += 10;
+        }
+        else if (StateController.mods["HR"])
+        {
+            perfect_plus_offset -= 10;
+            perfect_offset -= 10;
+            great_offset -= 10;
+            good_offset -= 10;
+            ok_offset -= 10;
+            miss_offset -= 10;
+        }
+
+        if (StateController.mods["HD"])
+        {
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().enabled = true;
+        }
+        else if (StateController.mods["FI"])
+        {
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().padding = new Vector4(0, -1200, 0, 1200);
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().enabled = true;
+        }
+        else if (StateController.mods["FL"])
+        {
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().padding = new Vector4(-1200, 0, 0, 1200);
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().softness = new Vector2Int(0, 500);
+            GameObject.FindGameObjectWithTag("hd-mask").GetComponent<RectMask2D>().enabled = true;
         }
         
         health =  MAX_HEALTH;
@@ -122,7 +167,7 @@ public class GameState : MonoBehaviour
     void Update() {
         health_bar_image.fillAmount = health_dotween / 100f;
 
-        if (!StateController.mods["NF"] && health <= 0 && !is_death)
+        if (!StateController.mods["NF"] && !StateController.mods["AT"] && health <= 0 && !is_death)
         {
             is_death = true;
             gameover = true;

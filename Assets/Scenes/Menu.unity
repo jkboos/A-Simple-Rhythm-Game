@@ -1062,6 +1062,7 @@ MonoBehaviour:
   gameState: {fileID: 0}
   mods_panel: {fileID: 0}
   mods_default_posX: 100
+  outline_material: {fileID: 0}
 --- !u!4 &263373579
 Transform:
   m_ObjectHideFlags: 0

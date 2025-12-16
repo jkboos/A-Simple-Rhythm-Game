@@ -14,8 +14,7 @@ public class NoteSpawner : MonoBehaviour
     [Header("Slider")]
     public GameObject slider;
     public GameObject modeScene;
-
-    private IniManager info = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\info.ini");
+    
     private int key = 4;
     StreamReader streamReader;
     string str;
@@ -24,20 +23,12 @@ public class NoteSpawner : MonoBehaviour
     public List<float> times = new List<float>();
     private float speed = 3;
     private float offset = 0;
+    private IniManager info = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\info.ini");
     private IniManager iniManager = new IniManager(".\\settings.ini");
     public GameState gameState;
 
     public void Start() {
         key = Int32.Parse(info.ReadIniFile("info", "Key", "4"));
-        if(key == 4) {
-            modeScene.transform.GetChild(0).gameObject.SetActive(true);
-            modeScene.transform.GetChild(1).gameObject.SetActive(false);
-        }
-        else if(key == 7) {
-            modeScene.transform.GetChild(0).gameObject.SetActive(false);
-            modeScene.transform.GetChild(1).gameObject.SetActive(true);
-        }
-
         speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
         speed /= gameState.speed_multiplier;
         offset = float.Parse(iniManager.ReadIniFile("settings", "offset", "0"), CultureInfo.InvariantCulture.NumberFormat);
@@ -52,11 +43,24 @@ public class NoteSpawner : MonoBehaviour
         while(str != null) {
             line = str.Split(",");
             GameObject n;
-            GameObject parent = GameObject.FindGameObjectWithTag(line[0].ToString());
+            GameObject parent;
+            if (StateController.mods["MR"])
+            {
+               parent = GameObject.FindGameObjectWithTag((key-Int32.Parse(line[0])-1).ToString());
+            }
+            else
+            {
+                parent = GameObject.FindGameObjectWithTag(line[0]);
+            }
             
             if(line[2] == "0") {  
                 n = Instantiate(note, parent.transform, parent);
                 n.GetComponent<NoteTimer>().clicked_timing = float.Parse(line[1], CultureInfo.InvariantCulture.NumberFormat)-final_offset;
+
+                if (StateController.mods["AT"])
+                {
+                    n.AddComponent<AutoNote>();
+                }
             }
             else {
                 n = Instantiate(slider, parent.transform, parent);
@@ -72,6 +76,11 @@ public class NoteSpawner : MonoBehaviour
 
                 n.GetComponent<SliderTimer>().clicked_timing = float.Parse(line[1], CultureInfo.InvariantCulture.NumberFormat)-final_offset;
                 n.GetComponent<SliderTimer>().end_timing = float.Parse(line[3], CultureInfo.InvariantCulture.NumberFormat)-final_offset;
+                
+                // if (StateController.mods["AT"])
+                // {
+                //     n.AddComponent<AutoSlider>();
+                // }
             }
             n.transform.position = new Vector3(parent.transform.position.x, 1300, parent.transform.position.z);
             n.name += i.ToString();

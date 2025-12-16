@@ -30,7 +30,7 @@ public class StateController
     
     public static Dictionary<string, List<string>> mods_conflict = new Dictionary<string, List<string>>
     {
-        ["NF"] = new List<string>() {"AT"},
+        ["NF"] = new List<string>() {"AT", "SD", "PF"},
         ["DT"] = new List<string>() {"HT"},
         ["HT"] = new List<string>() {"DT"},
         ["AT"] = new List<string>() {"NF"},
@@ -39,7 +39,7 @@ public class StateController
         ["FL"] = new List<string>() {"FI", "HD"},
         ["HD"] = new List<string>() {"FI", "FL"},
         ["HR"] = new List<string>() {"EZ"},
-        ["PF"] = new List<string>() {"SD"},
-        ["SD"] = new List<string>() {"PF"}
+        ["PF"] = new List<string>() {"SD", "NF"},
+        ["SD"] = new List<string>() {"PF", "NF"}
     };
 }

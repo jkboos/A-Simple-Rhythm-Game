@@ -1931,6 +1931,7 @@ MonoBehaviour:
   gameState: {fileID: 0}
   mods_panel: {fileID: 1082247911}
   mods_default_posX: 305
+  outline_material: {fileID: 2100000, guid: 2ff211453344f644da8cea7b42b17aab, type: 2}
 --- !u!4 &664199229
 Transform:
   m_ObjectHideFlags: 0
@@ -3295,6 +3296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b862218b2bbaefc4a9812fabcaaf00c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outline_material: {fileID: 2100000, guid: 2ff211453344f644da8cea7b42b17aab, type: 2}
 --- !u!1 &1096035665
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,15 +6,16 @@ using DG.Tweening;
 using System;
 using UnityEngine.UI;
 using System.IO;
+using System.Security.Permissions;
 using System.Text;
 using ini_read_write;
 
 public class ScoreManager : MonoBehaviour
 {
     [Header("分數上限")]
-    public int MAX_SCORE = 1000000;
+    public float MAX_SCORE = 1000000;
     [Header("分數")]
-    public int score = 0;
+    public float score = 0;
     [Header("精準度")]
     public float accuracy = 0;
     [Header("最大連擊數")]
@@ -51,22 +52,39 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text settle_accuracy_text;
     public Image rank_icon;
 
-    private int cur_score = 0;
+    public GameState gameState;
+
+    private float cur_score = 0;
 
     void Start() {
         updateScore();
     }
     void Update() {
-        score_text.text = cur_score.ToString();
+        if (StateController.mods["SD"] && miss > 0)
+        {
+            gameState.health = -10;
+        }
+        else if (StateController.mods["PF"] && miss + bad + good + great > 0)
+        {
+            gameState.health = -10;
+        }
+        
+        score_text.text = Math.Floor(cur_score).ToString();
         accuracy_text.text = Math.Round(calculateAccuracy()*100, 2).ToString("0.00")+"%";
         combo_text.text = combo.ToString();
         if(combo > max_combo) {
             max_combo = combo;
         }
+        
+        if (score >= MAX_SCORE)
+        {
+            score = MAX_SCORE;
+        }
+        
     }
 
     void updateScore() {
-        DOVirtual.Int(cur_score, score, 0.2f, (x) => {
+        DOVirtual.Float(cur_score, score, 0.2f, (x) => {
             cur_score = x;
         }).OnComplete(() => {
             updateScore();
@@ -81,6 +99,11 @@ public class ScoreManager : MonoBehaviour
     }
     
     public void SettleScore() {
+        if (miss + bad + good + great + perfect == 0)
+        {
+            score = MAX_SCORE;
+        }
+
         settle_score_text.text = score.ToString();
         settle_accuracy_text.text = (accuracy*100).ToString("0.00")+"%";
         settle_combo_text.text = max_combo.ToString();

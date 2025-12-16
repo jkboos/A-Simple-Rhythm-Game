@@ -42,27 +42,35 @@ public class KeyEvent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i< key; i++) {
+        for(int i = 0; !StateController.mods["AT"] &&i< key; i++) {
             KeyDownEvents[i] = Input.GetKeyDown((KeyCode)System.Enum.Parse(typeof(KeyCode), settings.ReadIniFile(key+"k", "key"+i, "D")));
             KeyUpEvents[i] = Input.GetKeyUp((KeyCode)System.Enum.Parse(typeof(KeyCode), settings.ReadIniFile(key+"k", "key"+i, "D")));
             KeyEvents[i] = Input.GetKey((KeyCode)System.Enum.Parse(typeof(KeyCode), settings.ReadIniFile(key+"k", "key"+i, "D")));
-
-            if(KeyDownEvents[i]) {
-                if(key == 4) {
+            
+            if (KeyDownEvents[i])
+            {
+                if (key == 4)
+                {
                     lights4K[i].Play("lighton");
                 }
-                else if(key == 7) {
+                else if (key == 7)
+                {
                     lights7K[i].Play("lighton");
                 }
             }
-            if(KeyUpEvents[i]) {
-                if(key == 4) {
+
+            if (KeyUpEvents[i])
+            {
+                if (key == 4)
+                {
                     lights4K[i].Play("lightoff");
                 }
-                else if(key == 7) {
+                else if (key == 7)
+                {
                     lights7K[i].Play("lightoff");
                 }
             }
+            
         }
 
         if(Input.GetKeyDown(KeyCode.Escape)) {
