@@ -5,6 +5,7 @@ using ini_read_write;
 using TMPro;
 using UnityEngine.Events;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class ButtonEvent : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class ButtonEvent : MonoBehaviour
 
     public float mods_default_posX = 100;
     private float mods_posX = 0;
+    
+    public Material outline_material;
     
     
     public void GoSettings()
@@ -159,6 +162,7 @@ public class ButtonEvent : MonoBehaviour
                 rotation = x;
                 button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
             });
+            button.GetComponent<Image>().material = outline_material;
         }
 
         void off_animation(GameObject button)
@@ -173,6 +177,7 @@ public class ButtonEvent : MonoBehaviour
                 rotation = x;
                 button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
             });
+            button.GetComponent<Image>().material = null;
         }
         
         

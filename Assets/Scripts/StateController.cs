@@ -17,11 +17,29 @@ public class StateController
         ["NF"] = false,
         ["DT"] = false,
         ["HT"] = false,
+        ["AT"] = false,
+        ["EZ"] = false,
+        ["FI"] = false,
+        ["FL"] = false,
+        ["HD"] = false,
+        ["HR"] = false,
+        ["MR"] = false,
+        ["PF"] = false,
+        ["SD"] = false,
     };
     
     public static Dictionary<string, List<string>> mods_conflict = new Dictionary<string, List<string>>
     {
+        ["NF"] = new List<string>() {"AT"},
         ["DT"] = new List<string>() {"HT"},
         ["HT"] = new List<string>() {"DT"},
+        ["AT"] = new List<string>() {"NF"},
+        ["EZ"] = new List<string>() {"HR"},
+        ["FI"] = new List<string>() {"FL", "HD"},
+        ["FL"] = new List<string>() {"FI", "HD"},
+        ["HD"] = new List<string>() {"FI", "FL"},
+        ["HR"] = new List<string>() {"EZ"},
+        ["PF"] = new List<string>() {"SD"},
+        ["SD"] = new List<string>() {"PF"}
     };
 }
