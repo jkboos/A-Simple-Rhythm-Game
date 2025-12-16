@@ -5669,6 +5669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c9cd8a2175ffd4795e97162ec19474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 032561a0359183f4da478f4d22805c83, type: 2}
+  BGM_group: {fileID: 24300002, guid: 032561a0359183f4da478f4d22805c83, type: 2}
   fadeIn_speed: 0.02
 --- !u!4 &1197254834
 Transform:

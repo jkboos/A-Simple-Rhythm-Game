@@ -4,13 +4,16 @@ using System.Globalization;
 using System.IO;
 using ini_read_write;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Networking;
 
 public class AudioManager : MonoBehaviour
 {
     IniManager iniManager = new IniManager(".\\settings.ini");
     public static AudioManager Instance;
-    
+
+    public AudioMixer mixer;
+    public AudioMixerGroup BGM_group;
     private AudioSource BGM;
     private AudioSource SFX;
     private bool fadein = false;
@@ -28,6 +31,7 @@ public class AudioManager : MonoBehaviour
             BGM = gameObject.AddComponent<AudioSource>();
             SFX = gameObject.AddComponent<AudioSource>();
             
+            BGM.outputAudioMixerGroup = BGM_group;
         }
         else
         {
@@ -76,6 +80,12 @@ public class AudioManager : MonoBehaviour
     public void resume_BGM()
     {
         BGM.Play();
+    }
+
+    public void set_BGM_speed(float speed_multiplier)
+    {
+        BGM.pitch = speed_multiplier;
+        mixer.SetFloat("PitchCorrection", 1f/speed_multiplier);
     }
 
     IEnumerator fadeIn()

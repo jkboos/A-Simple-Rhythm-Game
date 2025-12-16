@@ -17,11 +17,13 @@ public class movement : MonoBehaviour
         scoreManager = GameObject.FindGameObjectWithTag("scoremanager").GetComponent<ScoreManager>();
         gameState = GameObject.FindGameObjectWithTag("gamecontroller").GetComponent<GameState>();
         acc_score_animation = GameObject.FindGameObjectWithTag("acc-score").GetComponent<Animator>();
+        speed /= gameState.speed_multiplier;
     }
     
     void Update()
     {
-        if(gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress"))) {
+        if(gameObject.tag.Contains("canclick") || (gameObject.tag != "slider" && !gameObject.tag.Contains("canpress")))
+        {
             transform.position = new Vector3(transform.parent.position.x, transform.position.y-400*(speed)*Time.deltaTime, transform.position.z);
         }
         else if(gameObject.tag.Contains("canpress") || gameObject.tag == "slider") {

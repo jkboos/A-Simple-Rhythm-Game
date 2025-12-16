@@ -39,6 +39,7 @@ public class NoteSpawner : MonoBehaviour
         }
 
         speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        speed /= gameState.speed_multiplier;
         offset = float.Parse(iniManager.ReadIniFile("settings", "offset", "0"), CultureInfo.InvariantCulture.NumberFormat);
         
 

@@ -89,6 +89,7 @@ public class KeyEvent : MonoBehaviour
             else if (GameState.gameover)
             {
                 Time.timeScale = 1;
+                AudioManager.Instance.set_BGM_speed(1);
                 SceneManager.LoadScene("Scenes/SelectSong");
             }
         }
@@ -114,7 +115,7 @@ public class KeyEvent : MonoBehaviour
         
         AudioManager.Instance.resume_BGM();
         is_fadeOut = false;
-        Time.timeScale = 1;
+        Time.timeScale = gameController.speed_multiplier;
         yield return new WaitForSecondsRealtime(3f);
         can_pause = true;
     }

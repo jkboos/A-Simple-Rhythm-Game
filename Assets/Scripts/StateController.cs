@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class StateController
@@ -14,5 +15,13 @@ public class StateController
     public static Dictionary<string, bool> mods = new Dictionary<string, bool>
     {
         ["NF"] = false,
+        ["DT"] = false,
+        ["HT"] = false,
+    };
+    
+    public static Dictionary<string, List<string>> mods_conflict = new Dictionary<string, List<string>>
+    {
+        ["DT"] = new List<string>() {"HT"},
+        ["HT"] = new List<string>() {"DT"},
     };
 }

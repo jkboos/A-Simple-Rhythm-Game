@@ -59,12 +59,24 @@ public class GameState : MonoBehaviour
     public bool is_death = false;
 
     public GameObject death_transition;
+    
+    public float speed_multiplier = 1;
 
-    void Start() {
+    void Awake() {
+        if (StateController.mods["DT"])
+        {
+            speed_multiplier = 1.5f;
+        }
+        else if (StateController.mods["HT"])
+        {
+            speed_multiplier = 0.75f;
+        }
+        
         health =  MAX_HEALTH;
         pause = false;
         gameover = false;
         speed = float.Parse(iniManager.ReadIniFile("settings", "speed", "3"));
+        speed /= speed_multiplier;
         offset = Int32.Parse(iniManager.ReadIniFile("settings", "offset", "0"));
         time.GetComponent<TMP_Text>().autoSizeTextContainer = true;
         SetBackgroundImage(StateController.songs_path[StateController.cur_song_index]);
@@ -78,6 +90,13 @@ public class GameState : MonoBehaviour
         health_bar_image = health_bar.transform.GetChild(0).GetComponent<Image>();
         
         updateHealth();
+
+        perfect_plus_offset *= speed_multiplier;
+        perfect_offset *= speed_multiplier;
+        great_offset *= speed_multiplier;
+        good_offset  *= speed_multiplier;
+        ok_offset  *= speed_multiplier;
+        miss_offset *= speed_multiplier;
 
         float max = 0;
         StreamReader reader = new StreamReader(StateController.cur_song_path + "\\note.txt");
@@ -112,11 +131,13 @@ public class GameState : MonoBehaviour
             death_transition.GetComponent<Animator>().SetTrigger("death");
             AudioManager.Instance.stop_BGM();
             AudioManager.Instance.playSFX(StateController.death_sound);
+            AudioManager.Instance.set_BGM_speed(1);
         }
         
         if(isStart && !is_settle && end_time < Time.time*1000 - start_time) { 
             is_settle = true;
             gameover = true;
+            AudioManager.Instance.set_BGM_speed(1);
             StartCoroutine(Settle());
         }
         else if (isStart && !is_settle)
@@ -176,11 +197,13 @@ public class GameState : MonoBehaviour
                 particle.SetActive(false);
                 blackMask.GetComponent<Animator>().SetTrigger("fadeOut");
             }
-            AudioManager.Instance.resume_BGM();
+            
             isMusicStart = true;
             music_start_time = (float)Math.Round(Time.time*1000);
             KeyEvent.can_pause = true;
-            
+            Time.timeScale = speed_multiplier;
+            AudioManager.Instance.set_BGM_speed(speed_multiplier);
+            AudioManager.Instance.resume_BGM();
 
         }
         else {
@@ -191,9 +214,11 @@ public class GameState : MonoBehaviour
                 video.gameObject.SetActive(true);
                 particle.SetActive(false);
             }
-            AudioManager.Instance.resume_BGM();
             isMusicStart = true;
             music_start_time = (float)Math.Round(Time.time*1000);
+            Time.timeScale = speed_multiplier;
+            AudioManager.Instance.set_BGM_speed(speed_multiplier);
+            AudioManager.Instance.resume_BGM();
             KeyEvent.can_pause = true;
             yield return new WaitForSeconds(t);
             start_time = (float)Math.Round(Time.time*1000);

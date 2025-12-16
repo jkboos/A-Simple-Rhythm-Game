@@ -91,6 +91,7 @@ public class ButtonEvent : MonoBehaviour
         fadeout.Invoke(menu_canvas, () =>
         {
             Time.timeScale = 1;
+            AudioManager.Instance.set_BGM_speed(1);
             SceneManager.LoadScene("SelectSong");
         });
     }
@@ -108,7 +109,7 @@ public class ButtonEvent : MonoBehaviour
 
     public void retry()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameState.speed_multiplier;
         AudioManager.Instance.stop_BGM();
         AudioManager.Instance.playSFX(StateController.button_click_sound);
         SceneManager.LoadScene("PlayScene");
@@ -145,14 +146,23 @@ public class ButtonEvent : MonoBehaviour
                 return a - 360f;
             }
         }
-        
-        
-        bool active;
-        if (button.tag == "mod-active")
+
+        void on_animation(GameObject button)
         {
-            active = false;
-            button.tag = "Untagged";
-            
+            float scale = button.transform.localScale.x;
+            float rotation = angle(button.transform.localRotation.eulerAngles.z);
+            DOVirtual.Float(scale, 1.05f, 0.2f, (x) => {
+                scale = x;
+                button.transform.localScale = new Vector3(scale, scale, scale);
+            });
+            DOVirtual.Float(rotation, -8, 0.2f, (x) => {
+                rotation = x;
+                button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+            });
+        }
+
+        void off_animation(GameObject button)
+        {
             float scale = button.transform.localScale.x;
             float rotation = angle(button.transform.localRotation.eulerAngles.z);
             DOVirtual.Float(scale, 1, 0.2f, (x) => {
@@ -164,21 +174,36 @@ public class ButtonEvent : MonoBehaviour
                 button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
             });
         }
+        
+        
+        bool active;
+        if (button.tag == "mod-active")
+        {
+            active = false;
+            button.tag = "Untagged";
+            
+            off_animation(button);
+        }
         else
         {
+            if (StateController.mods_conflict.ContainsKey(button.name))
+            {
+                GameObject[] mods = GameObject.FindGameObjectsWithTag("mod-active");
+                foreach (GameObject mod in mods)
+                {
+                    if (StateController.mods_conflict[button.name].Contains(mod.name))
+                    {   
+                        mod.tag = "Untagged";
+                        StateController.mods[mod.name] = false;
+                        off_animation(mod);
+                    }
+                }
+            }
+            
             active = true;
             button.tag = "mod-active";
             
-            float scale = button.transform.localScale.x;
-            float rotation = angle(button.transform.localRotation.eulerAngles.z);
-            DOVirtual.Float(scale, 1.05f, 0.2f, (x) => {
-                scale = x;
-                button.transform.localScale = new Vector3(scale, scale, scale);
-            });
-            DOVirtual.Float(rotation, -8, 0.2f, (x) => {
-                rotation = x;
-                button.transform.localRotation = Quaternion.Euler(0, 0, rotation);
-            });
+            on_animation(button);
         }
         StateController.mods[button.name] = active;
     }
