@@ -7530,6 +7530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_time: 0
+  music_start_time: 0
   isStart: 0
   background: {fileID: 666335173}
   blackMask: {fileID: 748407103}
@@ -7539,6 +7540,7 @@ MonoBehaviour:
   progressbar: {fileID: 487470620}
   time: {fileID: 852371848}
   note_amount: 0
+  isMusicStart: 0
   storyboard: {fileID: 865233380}
   loading: {fileID: 1824154020}
   particle: {fileID: 883858555}
@@ -7553,9 +7555,9 @@ MonoBehaviour:
   perfect_plus_offset: 20
   perfect_offset: 40
   great_offset: 60
-  good_offset: 70
-  ok_offset: 80
-  miss_offset: 100
+  good_offset: 80
+  ok_offset: 100
+  miss_offset: 150
   is_death: 0
   death_transition: {fileID: 1246490611}
 --- !u!114 &1253749656
@@ -10911,6 +10913,8 @@ MonoBehaviour:
   settings_canvas: {fileID: 0}
   songlist_canvas: {fileID: 0}
   gameState: {fileID: 1253749655}
+  mods_panel: {fileID: 0}
+  mods_default_posX: 100
 --- !u!4 &2000164334
 Transform:
   m_ObjectHideFlags: 0

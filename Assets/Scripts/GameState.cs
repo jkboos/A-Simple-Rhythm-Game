@@ -51,10 +51,10 @@ public class GameState : MonoBehaviour
     public float perfect_plus_offset = 20;
     public float perfect_offset = 40;
     public float great_offset = 60;
-    public float good_offset = 70;
-    public float ok_offset = 80;
+    public float good_offset = 80;
+    public float ok_offset = 100;
 
-    public float miss_offset = 100;
+    public float miss_offset = 120;
 
     public bool is_death = false;
 
