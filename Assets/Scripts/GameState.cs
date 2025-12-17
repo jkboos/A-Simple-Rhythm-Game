@@ -42,6 +42,8 @@ public class GameState : MonoBehaviour
     public GameObject acc_score;
     public GameObject health_bar;
     private Image health_bar_image;
+    public Animator low_hp_1;
+    public Animator low_hp_2;
 
     public float health_dotween = 0;
     public float MAX_HEALTH = 100;
@@ -166,6 +168,8 @@ public class GameState : MonoBehaviour
 
     void Update() {
         health_bar_image.fillAmount = health_dotween / 100f;
+        low_hp_1.SetFloat("HP", health);
+        low_hp_2.SetFloat("HP", health);
 
         if (!StateController.mods["NF"] && !StateController.mods["AT"] && health <= 0 && !is_death)
         {

@@ -156,7 +156,7 @@ public class ScoreManager : MonoBehaviour
         using (FileStream fs = File.Create(StateController.songs_path[StateController.cur_song_index]+"\\score.ini")) {
             Byte[] info = new UTF8Encoding(true).GetBytes(
                 "[Record]\n"+
-                "score="+score.ToString()+"\n"+
+                "score="+Math.Floor(score).ToString()+"\n"+
                 "accuracy="+accuracy.ToString()+"\n"+
                 "max_combo="+max_combo.ToString()+"\n"+
                 "perfect_plus="+perfect_plus.ToString()+"\n"+

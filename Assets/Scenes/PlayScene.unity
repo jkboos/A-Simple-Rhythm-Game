@@ -1031,7 +1031,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0.682
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -7601,6 +7601,8 @@ MonoBehaviour:
   combo_text: {fileID: 1468823064}
   acc_score: {fileID: 239519196}
   health_bar: {fileID: 1481481483}
+  low_hp_1: {fileID: 1481481487}
+  low_hp_2: {fileID: 203277163}
   health_dotween: 0
   MAX_HEALTH: 100
   health: 100
@@ -8580,6 +8582,7 @@ GameObject:
   - component: {fileID: 1481481484}
   - component: {fileID: 1481481486}
   - component: {fileID: 1481481485}
+  - component: {fileID: 1481481487}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -8645,6 +8648,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481481483}
   m_CullTransparentMesh: 1
+--- !u!95 &1481481487
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481481483}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60610cd3f5c3ad34a831cfbcee0b2949, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1501350090
 GameObject:
   m_ObjectHideFlags: 0
