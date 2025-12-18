@@ -42,4 +42,20 @@ public class StateController
         ["PF"] = new List<string>() {"SD", "NF"},
         ["SD"] = new List<string>() {"PF", "NF"}
     };
+    
+    public static Dictionary<string, float> mods_multiplier = new Dictionary<string, float>
+    {
+        ["NF"] = 0.5f,
+        ["DT"] = 1.5f,
+        ["HT"] = 0.75f,
+        ["AT"] = 0f,
+        ["EZ"] = 0.75f,
+        ["FI"] = 1.25f,
+        ["FL"] = 1.5f,
+        ["HD"] = 1.25f,
+        ["HR"] = 1.25f,
+        ["MR"] = 1f,
+        ["PF"] = 1f,
+        ["SD"] = 1f,
+    };
 }

@@ -55,8 +55,17 @@ public class ScoreManager : MonoBehaviour
     public GameState gameState;
 
     private float cur_score = 0;
+    private float score_multiplier = 1f;
 
     void Start() {
+        foreach (string key in StateController.mods.Keys)
+        {
+            if (key != "AT" && StateController.mods[key])
+            {
+                score_multiplier *= StateController.mods_multiplier[key];
+            }
+        }
+        
         updateScore();
     }
     void Update() {
@@ -77,11 +86,12 @@ public class ScoreManager : MonoBehaviour
         }
         
         
-        score = perfect_plus*(MAX_SCORE/gameState.note_amount)+
+        score = (perfect_plus*(MAX_SCORE/gameState.note_amount)+
                 perfect*(MAX_SCORE/gameState.note_amount*(300f/305f))+
                 great*(MAX_SCORE/gameState.note_amount*(200f/305f))+
                 good*(MAX_SCORE/gameState.note_amount*(100f/305f))+
-                bad*(MAX_SCORE/gameState.note_amount*(50f/305f));
+                bad*(MAX_SCORE/gameState.note_amount*(50f/305f)))*
+                score_multiplier;
         
     }
 
@@ -101,10 +111,6 @@ public class ScoreManager : MonoBehaviour
     }
     
     public void SettleScore() {
-        if (miss + bad + good + great + perfect == 0)
-        {
-            score = MAX_SCORE;
-        }
 
         settle_score_text.text = score.ToString();
         settle_accuracy_text.text = (accuracy*100).ToString("0.00")+"%";
@@ -141,6 +147,12 @@ public class ScoreManager : MonoBehaviour
             rank = "D";
         }
 
+        if (StateController.mods["AT"])
+        {
+            return;
+        }
+        
+        score = MathF.Floor(score);
         if(File.Exists(StateController.songs_path[StateController.cur_song_index]+"\\score.ini")) {
             IniManager iniManager = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\score.ini");
             if(Int32.Parse(iniManager.ReadIniFile("Record", "score", "-1")) < score) {
