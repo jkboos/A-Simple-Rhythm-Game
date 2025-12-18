@@ -40,7 +40,7 @@ public class SliderClickedEvent : MonoBehaviour
             if(note.Length > 0 && !GameState.pause) {
                 if(StateController.mods["AT"])
                 {
-                    if (Math.Abs(Time.time * 1000 - gameState.start_time - note[0].GetComponent<SliderTimer>().clicked_timing) < gameState.perfect_plus_offset)
+                    if (note[0].GetComponent<SliderTimer>().clicked_timing - (Time.time * 1000 - gameState.start_time) <= 0)
                     {
                         note[0].GetComponent<SliderTimer>().start_timing = Math.Abs(Time.time * 1000 - gameState.start_time - note[0].GetComponent<SliderTimer>().clicked_timing);
                         note[0].GetComponent<SliderTimer>().canRealse = true;
@@ -58,7 +58,7 @@ public class SliderClickedEvent : MonoBehaviour
                         }
                     }
 
-                    if (Math.Abs(Time.time * 1000 - gameState.start_time - note[0].GetComponent<SliderTimer>().end_timing) < gameState.perfect_plus_offset || note[0].transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y  < 0)
+                    if (note[0].GetComponent<SliderTimer>().end_timing - (Time.time * 1000 - gameState.start_time) <= 0 || note[0].transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y  < 0)
                     {
                         note[0].GetComponent<SliderTimer>().finish_timing = Math.Abs(Time.time*1000-gameState.start_time-note[0].GetComponent<SliderTimer>().end_timing);
                         note[0].GetComponent<SliderTimer>().average = (note[0].GetComponent<SliderTimer>().start_timing+note[0].GetComponent<SliderTimer>().finish_timing)/2;

@@ -65,6 +65,8 @@ public class GameState : MonoBehaviour
     
     public float speed_multiplier = 1;
 
+    private float end_offset = 0;
+
     void Awake() {
         int key = Int32.Parse(info.ReadIniFile("info", "Key", "4"));
         if(key == 4) {
@@ -183,7 +185,7 @@ public class GameState : MonoBehaviour
             AudioManager.Instance.set_BGM_speed(1);
         }
         
-        if(isStart && !is_settle && end_time < Time.time*1000 - start_time) { 
+        if(isStart && !is_settle && (end_time-end_offset) < Time.time*1000 - start_time) { 
             is_settle = true;
             gameover = true;
             AudioManager.Instance.set_BGM_speed(1);
@@ -192,10 +194,10 @@ public class GameState : MonoBehaviour
         else if (isStart && !is_settle)
         {
             progressbar.GetComponent<RectTransform>().offsetMax = new Vector2(
-                -Screen.width + Screen.width * ((Time.time * 1000 - start_time) / end_time),
+                -Screen.width + Screen.width * ((Time.time * 1000 - start_time) / (end_time-end_offset)),
                 progressbar.GetComponent<RectTransform>().offsetMax.y);
             time.transform.position = new Vector3(Screen.width+progressbar.GetComponent<RectTransform>().offsetMax.x-time.GetComponent<RectTransform>().rect.width/2, time.transform.position.y, 0);
-            int remain_time = (int)((end_time - (Time.time*1000 - start_time)) / 1000);
+            int remain_time = (int)(((end_time-end_offset) - (Time.time*1000 - start_time)) / 1000);
             string second = $"{remain_time % 60}";
             string minute = $"{remain_time / 60}";
             minute = minute.PadLeft(2, '0');
@@ -233,7 +235,8 @@ public class GameState : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         loading.SetTrigger("fadeout");
-        
+
+        end_offset = t*1000;
         if(t < 0) {  
             yield return new WaitForSeconds(3+t);
             isStart = true;
@@ -246,14 +249,12 @@ public class GameState : MonoBehaviour
                 particle.SetActive(false);
                 blackMask.GetComponent<Animator>().SetTrigger("fadeOut");
             }
-            
             isMusicStart = true;
             music_start_time = (float)Math.Round(Time.time*1000);
             KeyEvent.can_pause = true;
             Time.timeScale = speed_multiplier;
             AudioManager.Instance.set_BGM_speed(speed_multiplier);
             AudioManager.Instance.resume_BGM();
-
         }
         else {
             yield return new WaitForSeconds(3);

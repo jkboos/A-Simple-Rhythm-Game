@@ -44,7 +44,7 @@ public class AutoNote : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<NoteTimer>().timing < gameState.perfect_plus_offset)
+        if(GetComponent<NoteTimer>().timing <= 0)
         {
             if(key == 4) {
                 hitLights4K[Int32.Parse(transform.parent.name)].Play("hit");
@@ -60,80 +60,16 @@ public class AutoNote : MonoBehaviour
     
     void score()
     {
-        if(GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
-            scoreManager.score += scoreManager.MAX_SCORE/gameState.note_amount;
-            scoreManager.perfect_plus++;
-            scoreManager.combo++;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("perfect+");
+        scoreManager.score += scoreManager.MAX_SCORE/gameState.note_amount;
+        scoreManager.perfect_plus++;
+        scoreManager.combo++;
+        Destroy(gameObject);
+        acc_score_animation.SetTrigger("perfect+");
 
-            if (gameState.health < gameState.MAX_HEALTH)
-            {
-                gameState.health += gameState.base_recovery;
-                if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
-            }
-        }
-        else if(GetComponent<NoteTimer>().timing <= gameState.perfect_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(300f/305f));
-            scoreManager.perfect++;
-            scoreManager.combo++;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("perfect");
-            
-            if (gameState.health < gameState.MAX_HEALTH)
-            {
-                gameState.health += gameState.base_recovery;
-                if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
-            }
-        }
-        else if(GetComponent<NoteTimer>().timing <= gameState.great_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(200f/305f));
-            scoreManager.great++;
-            scoreManager.combo++;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("great");
-            
-            if (gameState.health < gameState.MAX_HEALTH)
-            {
-                gameState.health += gameState.base_recovery*(200f/305f);
-                if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
-            }
-        }
-        else if(GetComponent<NoteTimer>().timing <= gameState.good_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(100f/305f));
-            scoreManager.good++;
-            scoreManager.combo++;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("good");
-            
-            if (gameState.health < gameState.MAX_HEALTH)
-            {
-                gameState.health += gameState.base_recovery*(100f/305f);
-                if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
-            }
-        }
-        else if(GetComponent<NoteTimer>().timing <= gameState.ok_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(50f/305f));
-            scoreManager.bad++;
-            scoreManager.combo++;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("ok");
-            
-            if (gameState.health < gameState.MAX_HEALTH)
-            {
-                gameState.health += gameState.base_recovery*(50f/305f);
-                if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
-            }
-        }
-        else {
-            scoreManager.miss++;
-            scoreManager.combo = 0;
-            Destroy(gameObject);
-            acc_score_animation.SetTrigger("miss");
-            
-            gameState.health -= gameState.base_damage;
-            if(gameState.health < 0)  gameState.health = 0;
-            
+        if (gameState.health < gameState.MAX_HEALTH)
+        {
+            gameState.health += gameState.base_recovery;
+            if(gameState.health > gameState.MAX_HEALTH)  gameState.health = gameState.MAX_HEALTH;
         }
     }
 }

@@ -55,7 +55,7 @@ public class NoteClickedEvent : MonoBehaviour
 
     void score(GameObject[] note)
     {
-        if(StateController.mods["AT"] || note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
+        if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
             scoreManager.perfect_plus++;
             scoreManager.combo++;
             Destroy(note[0]);
