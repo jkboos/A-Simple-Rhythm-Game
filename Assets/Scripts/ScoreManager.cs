@@ -76,10 +76,12 @@ public class ScoreManager : MonoBehaviour
             max_combo = combo;
         }
         
-        if (score >= MAX_SCORE)
-        {
-            score = MAX_SCORE;
-        }
+        
+        score = perfect_plus*(MAX_SCORE/gameState.note_amount)+
+                perfect*(MAX_SCORE/gameState.note_amount*(300f/305f))+
+                great*(MAX_SCORE/gameState.note_amount*(200f/305f))+
+                good*(MAX_SCORE/gameState.note_amount*(100f/305f))+
+                bad*(MAX_SCORE/gameState.note_amount*(50f/305f));
         
     }
 

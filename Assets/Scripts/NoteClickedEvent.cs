@@ -55,8 +55,7 @@ public class NoteClickedEvent : MonoBehaviour
 
     void score(GameObject[] note)
     {
-        if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
-            scoreManager.score += scoreManager.MAX_SCORE/gameState.note_amount;
+        if(StateController.mods["AT"] || note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_plus_offset) {
             scoreManager.perfect_plus++;
             scoreManager.combo++;
             Destroy(note[0]);
@@ -69,7 +68,6 @@ public class NoteClickedEvent : MonoBehaviour
             }
         }
         else if(note[0].GetComponent<NoteTimer>().timing <= gameState.perfect_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(300f/305f));
             scoreManager.perfect++;
             scoreManager.combo++;
             Destroy(note[0]);
@@ -82,7 +80,6 @@ public class NoteClickedEvent : MonoBehaviour
             }
         }
         else if(note[0].GetComponent<NoteTimer>().timing <= gameState.great_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(200f/305f));
             scoreManager.great++;
             scoreManager.combo++;
             Destroy(note[0]);
@@ -95,7 +92,6 @@ public class NoteClickedEvent : MonoBehaviour
             }
         }
         else if(note[0].GetComponent<NoteTimer>().timing <= gameState.good_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(100f/305f));
             scoreManager.good++;
             scoreManager.combo++;
             Destroy(note[0]);
@@ -108,7 +104,6 @@ public class NoteClickedEvent : MonoBehaviour
             }
         }
         else if(note[0].GetComponent<NoteTimer>().timing <= gameState.ok_offset) {
-            scoreManager.score += (int)(scoreManager.MAX_SCORE/gameState.note_amount*(50f/305f));
             scoreManager.bad++;
             scoreManager.combo++;
             Destroy(note[0]);
