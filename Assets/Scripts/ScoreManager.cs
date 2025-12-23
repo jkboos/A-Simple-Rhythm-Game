@@ -112,6 +112,7 @@ public class ScoreManager : MonoBehaviour
     
     public void SettleScore() {
 
+        score = MathF.Floor(score);
         settle_score_text.text = score.ToString();
         settle_accuracy_text.text = (accuracy*100).ToString("0.00")+"%";
         settle_combo_text.text = max_combo.ToString();
@@ -152,7 +153,6 @@ public class ScoreManager : MonoBehaviour
             return;
         }
         
-        score = MathF.Floor(score);
         if(File.Exists(StateController.songs_path[StateController.cur_song_index]+"\\score.ini")) {
             IniManager iniManager = new IniManager(StateController.songs_path[StateController.cur_song_index]+"\\score.ini");
             if(Int32.Parse(iniManager.ReadIniFile("Record", "score", "-1")) < score) {
